@@ -70,4 +70,9 @@ This project provides simple, interactive, and practical learning experiences to
 <img width="926" height="687" alt="Screenshot 2026-03-29 at 1 09 48 PM" src="https://github.com/user-attachments/assets/f1450941-5004-4d22-8c7b-9530cb8fb9c9" />
 <img width="1438" height="578" alt="Screenshot 2026-03-29 at 1 10 00 PM" src="https://github.com/user-attachments/assets/4803fc4e-6eea-4cc3-90f0-b641151e172f" />
 
+## ▶️ How to Use
+
+1. Download the HTML files  
+2. Open in browser  
+3. Use in awareness sessions or self-learning  
 
