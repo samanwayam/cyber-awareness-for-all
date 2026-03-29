@@ -64,3 +64,10 @@ This project provides simple, interactive, and practical learning experiences to
 - Real-world scenario-based training
 - Progress tracking checklist
 - Certificate-based engagement
+
+## 📸 Screenshots
+<img width="1014" height="561" alt="Screenshot 2026-03-29 at 1 09 37 PM" src="https://github.com/user-attachments/assets/37d9db60-0344-4333-af97-417be0c8aa23" />
+<img width="926" height="687" alt="Screenshot 2026-03-29 at 1 09 48 PM" src="https://github.com/user-attachments/assets/f1450941-5004-4d22-8c7b-9530cb8fb9c9" />
+<img width="1438" height="578" alt="Screenshot 2026-03-29 at 1 10 00 PM" src="https://github.com/user-attachments/assets/4803fc4e-6eea-4cc3-90f0-b641151e172f" />
+
+
