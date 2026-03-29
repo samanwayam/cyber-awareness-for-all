@@ -76,3 +76,8 @@ This project provides simple, interactive, and practical learning experiences to
 2. Open in browser  
 3. Use in awareness sessions or self-learning  
 
+## 📊 Impact Vision
+
+- Improve cybersecurity awareness among families  
+- Reduce phishing and social engineering risks  
+- Enable organizations to run awareness sessions easily  
