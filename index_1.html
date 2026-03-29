@@ -455,6 +455,12 @@
     .card-blue .card-tag   { background: rgba(61,158,252,.1); color: var(--blue); }
     .card-blue .card-link  { color: var(--blue); }
 
+    .card-red .card-icon   { background: rgba(255,76,106,.1); }
+    .card-red .card-tag    { background: rgba(255,76,106,.1); color: var(--red); }
+    .card-red .card-link   { color: var(--red); }
+    .card-red:hover        { border-color: var(--red) !important; box-shadow: 0 16px 48px rgba(0,0,0,.4), 0 0 10px rgba(255,76,106,.2) !important; }
+    .card-red::before      { background: linear-gradient(135deg, rgba(255,76,106,.06) 0%, transparent 60%) !important; }
+
     /* ─── TOPICS ─── */
     .topics {
       padding: 100px 48px;
@@ -720,18 +726,113 @@
       transform: none;
     }
 
+    /* ─── HAMBURGER BUTTON ─── */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: transparent;
+      border: none;
+      padding: 6px;
+    }
+    .hamburger span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--teal);
+      border-radius: 2px;
+      transition: transform .3s, opacity .3s;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* ─── MOBILE NAV DRAWER ─── */
+    .mobile-nav {
+      display: none;
+      position: fixed;
+      top: 70px; left: 0; right: 0;
+      background: rgba(5,11,18,.97);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+      z-index: 99;
+      padding: 20px 24px 28px;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .mobile-nav.open { display: flex; }
+    .mobile-nav a {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: .9rem;
+      color: var(--muted);
+      text-decoration: none;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+      letter-spacing: .08em;
+      transition: color .2s;
+    }
+    .mobile-nav a:last-child { border-bottom: none; }
+    .mobile-nav a:hover, .mobile-nav a:active { color: var(--teal); }
+
     /* ─── MOBILE ─── */
     @media (max-width: 900px) {
-      nav { padding: 16px 24px; }
+      nav { padding: 16px 20px; }
       .nav-links { display: none; }
-      .hero { padding: 110px 24px 60px; }
+      .nav-cta { display: none; }
+      .hamburger { display: flex; }
+      .hero { padding: 100px 20px 60px; }
       .hero-visual { display: none; }
-      .hero-stats .stat { padding: 22px 24px; }
-      .resources, .topics, .audience, .diff, .cta-section { padding: 72px 24px; }
-      .topics-inner, .diff-inner { grid-template-columns: 1fr; gap: 48px; }
+      .hero h1 { font-size: clamp(2rem, 7vw, 3.5rem); }
+      .hero-sub { font-size: 1rem; margin-bottom: 32px; }
+      .resources, .topics, .audience, .diff, .cta-section { padding: 60px 20px; }
+      .topics-inner, .diff-inner { grid-template-columns: 1fr; gap: 40px; }
+      .topics-list { grid-template-columns: 1fr 1fr; gap: 12px; }
+      footer { padding: 28px 20px; flex-direction: column; align-items: flex-start; gap: 20px; }
+      .footer-links { flex-wrap: wrap; gap: 16px 24px; }
+      .cta-box { padding: 40px 24px; }
+      .btn-primary, .btn-secondary { padding: 14px 24px; font-size: .87rem; }
+    }
+
+    @media (max-width: 900px) {
+      /* Hero stats: 2×2 grid instead of 4 in a row */
+      .hero-stats {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+      .hero-stats .stat {
+        padding: 20px 20px;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+      }
+      .hero-stats .stat:nth-child(1),
+      .hero-stats .stat:nth-child(2) {
+        border-bottom: 1px solid var(--border);
+      }
+      .hero-stats .stat:nth-child(1),
+      .hero-stats .stat:nth-child(3) {
+        border-right: 1px solid var(--border);
+      }
+      .hero-stats .stat:nth-child(3),
+      .hero-stats .stat:nth-child(4) {
+        border-bottom: none;
+      }
+      .stat-num { font-size: 1.7rem; }
+    }
+
+    @media (max-width: 600px) {
+      .hero { padding: 90px 16px 48px; }
+      .resources, .topics, .audience, .diff, .cta-section { padding: 48px 16px; }
       .topics-list { grid-template-columns: 1fr; }
-      footer { padding: 32px 24px; flex-direction: column; align-items: flex-start; }
-      .cta-box { padding: 48px 28px; }
+      .resource-card { padding: 24px 20px; }
+      .audience-grid { grid-template-columns: 1fr; }
+      .resource-grid { grid-template-columns: 1fr; }
+      .hero-badge { font-size: .65rem; padding: 6px 14px; }
+      .cta-box { padding: 32px 18px; border-radius: 16px; }
+      .cta-buttons { flex-direction: column; align-items: stretch; }
+      .cta-buttons a { justify-content: center; }
+      footer { padding: 24px 16px; }
+      .footer-links { gap: 12px 18px; }
     }
   </style>
 </head>
@@ -762,7 +863,21 @@
     </ul>
 
     <a href="https://github.com/sekuritytech/cyber-awareness-for-all" target="_blank" rel="noopener" class="nav-cta">⭐ Star on GitHub</a>
+
+    <!-- Hamburger (mobile only) -->
+    <button class="hamburger" id="hamburger" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
   </nav>
+
+  <!-- Mobile nav drawer -->
+  <div class="mobile-nav" id="mobile-nav">
+    <a href="#resources" class="mobile-nav-link">Resources</a>
+    <a href="#topics" class="mobile-nav-link">Topics</a>
+    <a href="#audience" class="mobile-nav-link">Who It's For</a>
+    <a href="#contribute" class="mobile-nav-link">Contribute</a>
+    <a href="https://github.com/sekuritytech/cyber-awareness-for-all" target="_blank" rel="noopener" style="color:var(--teal)">⭐ Star on GitHub</a>
+  </div>
 
   <!-- TICKER -->
   <div class="ticker" style="margin-top:70px">
@@ -943,25 +1058,9 @@
       </a>
 
       <!-- Parents Digital Resilience Presentation -->
-      <a href="presentations/parents-digital-resilience.html" class="resource-card" style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:36px;text-decoration:none;color:inherit;transition:border-color .25s,transform .25s,box-shadow .25s;position:relative;overflow:hidden;display:block;">
-        <style>
-          .card-red .card-icon { background: rgba(255,76,106,.1); }
-          .card-red .card-tag  { background: rgba(255,76,106,.1); color: var(--red); }
-          .card-red .card-link { color: var(--red); }
-          a[href="presentations/parents-digital-resilience.html"]:hover {
-            border-color: var(--red);
-            transform: translateY(-4px);
-            box-shadow: 0 16px 48px rgba(0,0,0,.4), 0 0 10px rgba(255,76,106,.25);
-          }
-          a[href="presentations/parents-digital-resilience.html"]::before {
-            content:'';position:absolute;inset:0;
-            background:linear-gradient(135deg,rgba(255,76,106,.06) 0%,transparent 60%);
-            opacity:0;transition:opacity .3s;
-          }
-          a[href="presentations/parents-digital-resilience.html"]:hover::before { opacity:1; }
-        </style>
-        <div class="card-icon" style="background:rgba(255,76,106,.1)">🛡️</div>
-        <span class="card-tag" style="background:rgba(255,76,106,.1);color:var(--red)">INTERACTIVE PRESENTATION</span>
+      <a href="presentations/parents-digital-resilience.html" class="resource-card card-red">
+        <div class="card-icon">🛡️</div>
+        <span class="card-tag">INTERACTIVE PRESENTATION</span>
         <h3>Digital Resilience for Parents</h3>
         <p>17-slide interactive presentation on building a safe digital home — covering cyberbullying, grooming, screen time, privacy, social media, and Kerala-specific helplines. Backed by 2025 MHA/I4C data.</p>
         <div class="card-audience">
@@ -970,7 +1069,7 @@
           <span class="audience-chip">COMMUNITY TALKS</span>
           <span class="audience-chip">KERALA</span>
         </div>
-        <span class="card-link" style="color:var(--red);display:inline-flex;align-items:center;gap:8px;font-family:'Syne',sans-serif;font-weight:600;font-size:.85rem;letter-spacing:.04em">
+        <span class="card-link">
           Open Presentation
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </span>
@@ -1209,6 +1308,21 @@
     a.addEventListener('click', e => {
       const target = document.querySelector(a.getAttribute('href'));
       if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+    });
+  });
+
+  // ── Hamburger menu ──
+  const hamburger = document.getElementById('hamburger');
+  const mobileNav = document.getElementById('mobile-nav');
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('open');
+    mobileNav.classList.toggle('open');
+  });
+  // Close drawer on link click
+  mobileNav.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      hamburger.classList.remove('open');
+      mobileNav.classList.remove('open');
     });
   });
 </script>
