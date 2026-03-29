@@ -44,4 +44,8 @@ This project is licensed under the MIT License.
 
 - 📊 Cyber Safety Awareness Presentation  
 - ✅ Interactive Cyber Safety Checklist  
-- 🎓 Interactive Learning Module with Certification  
+- 🎓 Interactive Learning Module with Certification
+
+- # Cyber Awareness for All
+
+An open-source initiative providing interactive cybersecurity awareness resources for individuals, parents, and organizations.
