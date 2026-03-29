@@ -21,7 +21,7 @@ To simplify cybersecurity and make awareness **accessible to everyone** — from
 
 | Resource | Type | Audience | Description |
 |----------|------|----------|-------------|
-| 📊 [Cyber Safety Presentation](presentations/cyber-safety-awareness-session/) | `.pptx` | Parents · Educators | 10-slide deck covering threats, rules, and response strategies |
+| 📊 [Cyber Safety Presentation](presentations/cyber-safety-awareness-session/CyberSafety_Kids_Presentation.pptx) | `.pptx` | Parents · Educators | 10-slide deck covering threats, rules, and response strategies |
 | ✅ [Interactive Checklist](presentations/checklists/CyberSafety_Kids_Checklist.html) | `.html` | Kids · Parents | 32-item checklist with live progress tracking |
 | 🎓 [Awareness Module](presentations/awareness-modules/kids-online-safety/CyberSafety_Kids_AwarenessModule.html) | `.html` | Kids · Educators | 5-module interactive course with quizzes & completion certificate |
 
