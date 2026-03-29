@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cyber Safety Checklist for Kids</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: #f0f4f8;
+    color: #0D1B2A;
+    padding: 24px;
+    min-height: 100vh;
+  }
+
+  .page {
+    max-width: 860px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 8px 40px rgba(13,27,42,0.10);
+    overflow: hidden;
+  }
+
+  /* Header */
+  .header {
+    background: linear-gradient(135deg, #0D1B2A 0%, #1B2D42 60%, #00A896 100%);
+    padding: 36px 40px 28px;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    right: -60px; top: -60px;
+    width: 240px; height: 240px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.05);
+  }
+  .header-badge {
+    display: inline-block;
+    background: rgba(0,168,150,0.25);
+    border: 1px solid #00A896;
+    color: #02C39A;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+  }
+  .header h1 {
+    font-size: 32px;
+    font-weight: 800;
+    color: white;
+    line-height: 1.2;
+    margin-bottom: 6px;
+  }
+  .header p {
+    font-size: 14px;
+    color: #D0DDE8;
+    font-style: italic;
+  }
+  .header-icons {
+    position: absolute;
+    right: 40px;
+    top: 28px;
+    font-size: 56px;
+    opacity: 0.9;
+  }
+
+  /* Body */
+  .body { padding: 32px 40px 40px; }
+
+  /* Intro note */
+  .intro {
+    background: #f0faf9;
+    border-left: 4px solid #00A896;
+    border-radius: 0 8px 8px 0;
+    padding: 14px 18px;
+    font-size: 13.5px;
+    color: #1B2D42;
+    margin-bottom: 28px;
+  }
+
+  /* Section */
+  .section { margin-bottom: 28px; }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #0D1B2A;
+    color: white;
+    padding: 10px 16px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+  }
+  .section-header .section-icon { font-size: 20px; }
+  .section-header h2 { font-size: 15px; font-weight: 700; }
+  .section-header .section-tag {
+    margin-left: auto;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 10px;
+  }
+  .tag-kids    { background: #00A896; color: white; }
+  .tag-parents { background: #FF6B6B; color: white; }
+  .tag-both    { background: #FFD166; color: #0D1B2A; }
+
+  /* Checklist items */
+  .checklist { list-style: none; }
+  .checklist li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 6px;
+    font-size: 13.5px;
+    line-height: 1.5;
+    border: 1px solid transparent;
+    transition: background 0.15s;
+  }
+  .checklist li:hover { background: #f8fafc; border-color: #D0DDE8; }
+  .checklist li:nth-child(even) { background: #fafbfc; }
+  .checklist li:nth-child(even):hover { background: #f0f4f8; }
+
+  .checkbox {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #00A896;
+    border-radius: 4px;
+    margin-top: 1px;
+    background: white;
+    cursor: pointer;
+    position: relative;
+  }
+  .checkbox.checked {
+    background: #00A896;
+    border-color: #00A896;
+  }
+  .checkbox.checked::after {
+    content: '✓';
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 18px;
+    text-align: center;
+    padding-left: 2px;
+  }
+
+  .item-text { flex: 1; }
+  .item-text strong { color: #0D1B2A; }
+  .item-text .note { display: block; font-size: 11.5px; color: #8899AA; margin-top: 1px; }
+
+  /* Progress bar */
+  .progress-section {
+    background: #f0f4f8;
+    border-radius: 10px;
+    padding: 18px 20px;
+    margin-top: 24px;
+  }
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    font-weight: 600;
+    color: #1B2D42;
+    margin-bottom: 8px;
+  }
+  .progress-bar-bg {
+    height: 10px;
+    background: #D0DDE8;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #00A896, #02C39A);
+    border-radius: 10px;
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+  .progress-status {
+    font-size: 12px;
+    color: #8899AA;
+    margin-top: 6px;
+    text-align: right;
+  }
+
+  /* Footer */
+  .footer {
+    background: #0D1B2A;
+    color: #8899AA;
+    text-align: center;
+    padding: 16px;
+    font-size: 11.5px;
+  }
+  .footer span { color: #00A896; font-weight: 600; }
+
+  @media print {
+    body { background: white; padding: 0; }
+    .page { box-shadow: none; border-radius: 0; }
+    .checklist li:hover { background: transparent; border-color: transparent; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+  <div class="header">
+    <div class="header-badge">Cyber Awareness</div>
+    <h1>🛡️ Cyber Safety Checklist<br>for Kids</h1>
+    <p>A complete guide for children, parents & educators</p>
+    <div class="header-icons">🔐</div>
+  </div>
+
+  <div class="body">
+    <div class="intro">
+      ℹ️ <strong>How to use this checklist:</strong> Go through each section with your child. Check off items that are already in place. For unchecked items, make a plan to action them. Review this checklist every 3 months.
+    </div>
+
+    <!-- Section 1 -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-icon">🧒</span>
+        <h2>Personal Information Protection</h2>
+        <span class="section-tag tag-kids">Kids</span>
+      </div>
+      <ul class="checklist">
+        <li>
+          <div class="checkbox" onclick="toggle(this)"></div>
+          <div class="item-text"><strong>I never share my full name online</strong><br><span class="note">Use a nickname or username instead of your real name</span></div>
+        </li>
+        <li>
+          <div class="checkbox" onclick="toggle(this)"></div>
+          <div class="item-text"><strong>I never share my home address or school name</strong><br><span class="note">Not in profiles, chats, games, or comments</span></div>
+        </li>
+        <li>
+          <div class="checkbox" onclick="toggle(this)"></div>
+          <div class="item-text"><strong>I never share my phone number with strangers</strong></div>
+        </li>
+        <li>
+          <div class="checkbox" onclick="toggle(this)"></div>
+          <div class="item-text"><strong>I keep my passwords private — even from friends</strong><br><span class="note">Only share passwords with a parent or guardian</span></div>
+        </li>
+        <li>
+          <div class="checkbox" onclick="toggle(this)"></div>
+          <div class="item-text"><strong>I do not post photos that show my location</strong><br><span class="note">Avoid photos with school uniforms, street signs, or landmarks</span></div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Section 2 -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-icon">🔐</span>
+        <h2>Passwords & Account Security</h2>
+        <span class="section-tag tag-both">Kids + Parents</span>
+      </div>
+      <ul class="checklist">
+        <li>
+          <div class="checkbox" onclick="toggle(this)"></div>
+          <div class="item-text"><strong>All accounts have strong, unique passwords</strong><br><span class="note">At least 12 characters with letters, numbers, and symbols</span></div>
+        </li>
+        <li>
+          <div class="checkbox" onclick="toggle(this)"></div>
+          <div class="item-text"><strong>Two-factor authentication (2FA) is enabled</strong><br><span class="note">On email, social media, and gaming accounts where available</span></div>
+        </li>
+        <li>
+          <div class="checkbox" onclick="toggle(this)"></div>
+          <div class="item-text"><strong>I log out from shared devices (school computers, tablets)</strong></div>
+        </li>
+        <li>
+          <div class="checkbox" onclick="toggle(this)"></div>
+          <div class="item-text"><strong>I use a password manager or secure record</strong><br><span class="note">Parents should keep a secure copy of children's account credentials</span></div>
+        </li>
+        <li>
+          <div class="checkbox" onclick="toggle(this)"></div>
+          <div class="item-text"><strong>Passwords are changed every 6 months</strong></div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Section 3 -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-icon">📱</span>
+        <h2>Social Media & Online Profiles</h2>
+        <span class="section-tag tag-both">Kids + Parents</span>
+      </div>
+      <ul class="checklist">
+        <li>
+          <div class="checkbox" onclick="toggle(this)"></div>
+          <div class="item-text"><strong>All social media profiles are set to private</strong></div>
+        </li>
+        <li>
+          <div class="checkbox" onclick="toggle(this)"></div>
+          <div class="item-text"><strong>Location sharing is turned OFF on all apps</strong></div>
+        </li>
+        <li>
+          <div class="checkbox" onclick="toggle(this)"></div>
+          <div class="item-text"><strong>Only real-life friends are approved as followers/friends</strong></div>
+        </li>
+        <li>
+          <div class="checkbox" onclick="toggle(this)"></div>
+          <div class="item-text"><strong>Direct messages from strangers are blocked/disabled</strong></div>
+        </li>
+        <li>
+          <div class="checkbox" onclick="toggle(this)"></div>
+          <div class="item-text"><strong>I think before posting — would I show this to a teacher?</strong><br><span class="note">The "teacher test" is a great way to check if content is appropriate</span></div>
+        </li>
+        <li>
+          <div class="checkbox" onclick="toggle(this)"></div>
+          <div class="item-text"><strong>I review my profile photo — it does not show personal details</strong></div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Section 4 -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-icon">⚠️</span>
+        <h2>Recognizing & Reporting Threats</h2>
+        <span class="section-tag tag-kids">Kids</span>
+      </div>
+      <ul class="checklist">
+        <li>
+          <div class="checkbox" onclick="toggle(this)"></div>
+          <div class="item-text"><strong>I know what cyberbullying looks like and how to report it</strong></div>
+        </li>
+        <li>
+          <div class="checkbox" onclick="toggle(this)"></div>
+          <div class="item-text"><strong>I do not click on suspicious links or pop-ups</strong><br><span class="note">Especially offers that seem too good to be true</span></div>
+        </li>
+        <li>
+          <div class="checkbox" onclick="toggle(this)"></div>
+          <div class="item-text"><strong>I know not to download apps or files without parent approval</strong></div>
+        </li>
+        <li>
+          <div class="checkbox" onclick="toggle(this)"></div>
+          <div class="item-text"><strong>If I feel uncomfortable online, I stop and tell an adult</strong></div>
+        </li>
+        <li>
+          <div class="checkbox" onclick="toggle(this)"></div>
+          <div class="item-text"><strong>I save evidence (screenshots) before reporting or blocking</strong></div>
+        </li>
+        <li>
+          <div class="checkbox" onclick="toggle(this)"></div>
+          <div class="item-text"><strong>I know the helpline: Childline 1098 (India) / NCMEC (Global)</strong></div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Section 5 -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-icon">🏠</span>
+        <h2>Home & Device Safety</h2>
+        <span class="section-tag tag-parents">Parents</span>
+      </div>
+      <ul class="checklist">
+        <li>
+          <div class="checkbox" onclick="toggle(this)"></div>
+          <div class="item-text"><strong>Parental controls are enabled on all devices</strong></div>
+        </li>
+        <li>
+          <div class="checkbox" onclick="toggle(this)"></div>
+          <div class="item-text"><strong>Screen time limits are set and followed</strong></div>
+        </li>
+        <li>
+          <div class="checkbox" onclick="toggle(this)"></div>
+          <div class="item-text"><strong>Devices are charged outside the bedroom at night</strong><br><span class="note">Reduces exposure and encourages better sleep habits</span></div>
+        </li>
+        <li>
+          <div class="checkbox" onclick="toggle(this)"></div>
+          <div class="item-text"><strong>Antivirus software is installed and updated</strong></div>
+        </li>
+        <li>
+          <div class="checkbox" onclick="toggle(this)"></div>
+          <div class="item-text"><strong>Home Wi-Fi uses WPA3 encryption and a strong password</strong></div>
+        </li>
+        <li>
+          <div class="checkbox" onclick="toggle(this)"></div>
+          <div class="item-text"><strong>Approved app/game list is maintained and reviewed regularly</strong></div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Section 6 -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-icon">💬</span>
+        <h2>Communication & Digital Citizenship</h2>
+        <span class="section-tag tag-both">Kids + Parents</span>
+      </div>
+      <ul class="checklist">
+        <li>
+          <div class="checkbox" onclick="toggle(this)"></div>
+          <div class="item-text"><strong>We have regular conversations about online experiences</strong></div>
+        </li>
+        <li>
+          <div class="checkbox" onclick="toggle(this)"></div>
+          <div class="item-text"><strong>My child knows they won't get in trouble for reporting problems</strong></div>
+        </li>
+        <li>
+          <div class="checkbox" onclick="toggle(this)"></div>
+          <div class="item-text"><strong>I treat everyone online with respect — no mean comments</strong></div>
+        </li>
+        <li>
+          <div class="checkbox" onclick="toggle(this)"></div>
+          <div class="item-text"><strong>I understand that online actions have real-world consequences</strong></div>
+        </li>
+        <li>
+          <div class="checkbox" onclick="toggle(this)"></div>
+          <div class="item-text"><strong>We review our safety rules together every 3 months</strong></div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Progress bar -->
+    <div class="progress-section">
+      <div class="progress-label">
+        <span>🏆 Checklist Progress</span>
+        <span id="progress-pct">0%</span>
+      </div>
+      <div class="progress-bar-bg">
+        <div class="progress-bar-fill" id="progress-fill"></div>
+      </div>
+      <div class="progress-status" id="progress-status">Start checking off items above!</div>
+    </div>
+
+  </div><!-- /body -->
+
+  <div class="footer">
+    <span>Cyber Awareness GitHub Repo</span> · Checklist for Kids Cyber Safety · Review every 3 months
+  </div>
+</div>
+
+<script>
+  const total = document.querySelectorAll('.checkbox').length;
+
+  function toggle(el) {
+    el.classList.toggle('checked');
+    updateProgress();
+  }
+
+  function updateProgress() {
+    const checked = document.querySelectorAll('.checkbox.checked').length;
+    const pct = Math.round((checked / total) * 100);
+    document.getElementById('progress-pct').textContent = pct + '%';
+    document.getElementById('progress-fill').style.width = pct + '%';
+    let status = 'Keep going — you\'re building great cyber habits!';
+    if (pct === 0) status = 'Start checking off items above!';
+    else if (pct === 100) status = '🎉 Amazing! All items complete. Review again in 3 months.';
+    else if (pct >= 75) status = '🌟 Great progress! Just a few more to go.';
+    else if (pct >= 50) status = '👍 Halfway there — keep it up!';
+    document.getElementById('progress-status').textContent = status;
+  }
+</script>
+</body>
+</html>
