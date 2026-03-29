@@ -49,3 +49,11 @@ This project is licensed under the MIT License.
 - # Cyber Awareness for All
 
 An open-source initiative providing interactive cybersecurity awareness resources for individuals, parents, and organizations.
+
+## ❗ Problem
+
+Most cybersecurity awareness content is either too technical or not engaging.
+
+## ✅ Solution
+
+This project provides simple, interactive, and practical learning experiences to improve digital safety.
