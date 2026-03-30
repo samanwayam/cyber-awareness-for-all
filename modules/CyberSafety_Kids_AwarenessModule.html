@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cyber Safety Awareness Module — SekurityTech</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy:#070B18;--navyMid:#0E1628;--navyLight:#162035;
+  --teal:#00E5CC;--tealDim:#00A896;
+  --coral:#FF5757;--gold:#FFD166;--purple:#A78BFA;--green:#4ADE80;
+  --white:#FFFFFF;--offWhite:#E8EEF8;--gray:#6B7FA3;--lightGray:#C4D0E8;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--navy);color:var(--white);min-height:100vh;}
+
+/* TOPBAR */
+.topbar{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  background:rgba(7,11,24,0.95);backdrop-filter:blur(16px);
+  border-bottom:1px solid rgba(0,229,204,0.1);
+  padding:0 40px;
+  display:flex;align-items:center;justify-content:space-between;height:58px;
+}
+.topbar-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:16px;color:var(--white);text-decoration:none;}
+.topbar-logo span{color:var(--teal);}
+.topbar-center{display:flex;align-items:center;gap:6px;}
+.mod-dot-nav{
+  width:28px;height:4px;border-radius:100px;
+  background:rgba(255,255,255,0.1);
+  cursor:pointer;transition:all 0.3s;
+}
+.mod-dot-nav.active{background:var(--teal);}
+.mod-dot-nav.done{background:rgba(0,229,204,0.4);}
+.topbar-right{display:flex;align-items:center;gap:12px;}
+.mod-counter{font-size:12px;color:var(--gray);}
+.back-btn{font-size:13px;color:var(--gray);text-decoration:none;padding:6px 12px;border:1px solid rgba(255,255,255,0.1);border-radius:8px;transition:all 0.2s;}
+.back-btn:hover{border-color:var(--teal);color:var(--teal);}
+
+/* MODULE WRAPPER */
+.module-wrap{padding-top:58px;min-height:100vh;}
+.module{display:none;animation:fadeUp 0.45s ease both;}
+.module.active{display:flex;flex-direction:column;min-height:calc(100vh - 58px);}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+
+/* MODULE HERO */
+.mod-hero{
+  padding:56px 40px 48px;
+  background:linear-gradient(135deg,var(--navyMid),var(--navy));
+  border-bottom:1px solid rgba(255,255,255,0.05);
+  text-align:center;
+}
+.mod-badge{
+  display:inline-block;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  padding:5px 14px;border-radius:100px;margin-bottom:16px;
+  background:rgba(0,229,204,0.1);border:1px solid rgba(0,229,204,0.2);color:var(--teal);
+}
+.mod-hero h1{font-family:'Syne',sans-serif;font-size:clamp(24px,4vw,40px);font-weight:800;margin-bottom:12px;line-height:1.15;}
+.mod-hero p{font-size:16px;color:var(--lightGray);max-width:560px;margin:0 auto;line-height:1.7;}
+
+/* MODULE BODY */
+.mod-body{flex:1;max-width:800px;margin:0 auto;padding:40px 40px 20px;width:100%;}
+
+/* CARDS */
+.info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:32px;}
+.info-card{
+  background:var(--navyLight);border:1px solid rgba(196,208,232,0.08);
+  border-radius:14px;padding:22px 20px;transition:all 0.2s;
+}
+.info-card:hover{border-color:rgba(0,229,204,0.15);transform:translateY(-2px);}
+.info-card-icon{font-size:28px;margin-bottom:10px;}
+.info-card h3{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;margin-bottom:6px;}
+.info-card p{font-size:13px;color:var(--gray);line-height:1.6;}
+
+/* SCENARIO CARDS */
+.scenario-grid{display:flex;flex-direction:column;gap:12px;margin-bottom:28px;}
+.scenario{
+  background:var(--navyLight);border:1px solid rgba(196,208,232,0.07);
+  border-radius:14px;padding:20px;cursor:pointer;transition:all 0.25s;
+}
+.scenario:hover{border-color:rgba(0,229,204,0.2);}
+.scenario.revealed{border-color:rgba(0,229,204,0.3);background:rgba(0,229,204,0.04);}
+.scenario-head{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+.scen-tag{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:3px 10px;border-radius:100px;}
+.tag-danger{background:rgba(255,87,87,0.15);color:var(--coral);}
+.tag-warning{background:rgba(255,209,102,0.15);color:var(--gold);}
+.tag-safe{background:rgba(74,222,128,0.15);color:var(--green);}
+.scen-title{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;}
+.scen-body{font-size:13.5px;color:var(--lightGray);line-height:1.6;}
+.scen-reveal{
+  margin-top:14px;padding:14px 16px;border-radius:10px;font-size:13.5px;line-height:1.6;
+  display:none;
+}
+.scenario.revealed .scen-reveal{display:block;animation:fadeUp 0.3s ease;}
+.reveal-good{background:rgba(74,222,128,0.1);border:1px solid rgba(74,222,128,0.2);color:#86efac;}
+.reveal-bad{background:rgba(255,87,87,0.1);border:1px solid rgba(255,87,87,0.2);color:#fca5a5;}
+.reveal-info{background:rgba(0,229,204,0.08);border:1px solid rgba(0,229,204,0.2);color:#99f6e4;}
+.scen-hint{font-size:11px;color:var(--gray);margin-top:10px;font-style:italic;}
+.scenario.revealed .scen-hint{display:none;}
+
+/* QUIZ */
+.quiz-box{
+  background:var(--navyLight);border:1px solid rgba(196,208,232,0.08);
+  border-radius:16px;padding:28px;margin-bottom:28px;
+}
+.quiz-q{font-family:'Syne',sans-serif;font-size:17px;font-weight:700;line-height:1.4;margin-bottom:8px;}
+.quiz-scenario-note{
+  font-size:13px;color:var(--gray);font-style:italic;
+  padding:10px 14px;background:rgba(255,255,255,0.03);border-radius:8px;
+  border-left:3px solid var(--teal);margin-bottom:20px;line-height:1.55;
+}
+.quiz-opts{display:flex;flex-direction:column;gap:8px;}
+.quiz-opt{
+  display:flex;align-items:center;gap:12px;padding:13px 16px;border-radius:10px;
+  border:1.5px solid rgba(196,208,232,0.12);cursor:pointer;font-size:14px;
+  transition:all 0.15s;background:rgba(255,255,255,0.02);
+}
+.quiz-opt:hover{background:rgba(0,229,204,0.06);border-color:rgba(0,229,204,0.25);}
+.quiz-opt.correct{background:rgba(74,222,128,0.1);border-color:rgba(74,222,128,0.4);}
+.quiz-opt.wrong{background:rgba(255,87,87,0.1);border-color:rgba(255,87,87,0.35);}
+.quiz-opt.disabled{pointer-events:none;}
+.opt-letter{
+  width:30px;height:30px;border-radius:8px;background:rgba(255,255,255,0.06);
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;font-weight:700;flex-shrink:0;
+}
+.quiz-opt.correct .opt-letter{background:var(--green);color:var(--navy);}
+.quiz-opt.wrong .opt-letter{background:var(--coral);color:white;}
+.quiz-feedback{
+  margin-top:16px;padding:14px 16px;border-radius:10px;font-size:13.5px;line-height:1.6;display:none;
+}
+.quiz-feedback.show{display:block;animation:fadeUp 0.3s ease;}
+.fb-good{background:rgba(74,222,128,0.1);border:1px solid rgba(74,222,128,0.25);color:#86efac;}
+.fb-bad{background:rgba(255,87,87,0.1);border:1px solid rgba(255,87,87,0.25);color:#fca5a5;}
+
+/* RULES / STEPS */
+.rules-list{display:flex;flex-direction:column;gap:12px;margin-bottom:28px;}
+.rule-item{
+  display:flex;gap:16px;align-items:flex-start;
+  background:var(--navyLight);border:1px solid rgba(196,208,232,0.07);border-radius:12px;padding:18px 20px;
+}
+.rule-num{
+  width:36px;height:36px;border-radius:10px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Syne',sans-serif;font-size:16px;font-weight:800;
+}
+.rule-body{}
+.rule-body h4{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;margin-bottom:4px;}
+.rule-body p{font-size:13px;color:var(--gray);line-height:1.6;}
+
+/* STEP FLOW */
+.step-flow{display:flex;flex-direction:column;gap:0;margin-bottom:28px;}
+.step-item{
+  display:flex;gap:0;position:relative;
+}
+.step-item:not(:last-child)::after{
+  content:'';position:absolute;left:20px;top:52px;bottom:-8px;
+  width:2px;background:rgba(0,229,204,0.2);
+}
+.step-circle{
+  width:40px;height:40px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;font-size:18px;
+  background:rgba(0,229,204,0.1);border:2px solid rgba(0,229,204,0.3);margin-right:16px;
+}
+.step-content{
+  flex:1;background:var(--navyLight);border:1px solid rgba(196,208,232,0.07);
+  border-radius:12px;padding:16px 18px;margin-bottom:8px;
+}
+.step-content h4{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:var(--teal);margin-bottom:4px;}
+.step-content p{font-size:13px;color:var(--lightGray);line-height:1.55;}
+
+/* COMPARISON */
+.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:28px;}
+.compare-col{border-radius:14px;overflow:hidden;}
+.compare-header{padding:12px 18px;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;text-align:center;}
+.compare-header.good-hd{background:rgba(74,222,128,0.2);color:var(--green);}
+.compare-header.bad-hd{background:rgba(255,87,87,0.2);color:var(--coral);}
+.compare-items{background:var(--navyLight);border:1px solid rgba(196,208,232,0.07);padding:8px;}
+.compare-item{padding:10px 12px;font-size:13px;color:var(--lightGray);border-bottom:1px solid rgba(255,255,255,0.04);line-height:1.5;}
+.compare-item:last-child{border-bottom:none;}
+
+/* PLEDGE */
+.pledge-section{
+  background:linear-gradient(135deg,rgba(0,229,204,0.06),rgba(0,0,0,0));
+  border:1px solid rgba(0,229,204,0.2);border-radius:20px;
+  padding:40px;text-align:center;margin-bottom:28px;
+}
+.pledge-text{
+  font-size:17px;line-height:2;color:var(--offWhite);font-style:italic;
+  margin:20px 0 28px;
+}
+.pledge-name-input{
+  background:rgba(255,255,255,0.06);border:1.5px solid rgba(255,255,255,0.15);
+  border-radius:10px;padding:12px 18px;color:white;font-size:15px;
+  width:280px;text-align:center;outline:none;transition:border-color 0.2s;font-family:'DM Sans',sans-serif;
+}
+.pledge-name-input:focus{border-color:var(--teal);}
+.pledge-name-input::placeholder{color:var(--gray);}
+.sign-btn{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--teal);color:var(--navy);font-weight:700;font-size:14px;
+  padding:12px 28px;border-radius:10px;border:none;cursor:pointer;
+  transition:all 0.2s;margin-top:16px;font-family:'DM Sans',sans-serif;
+}
+.sign-btn:hover{background:#00FFE5;transform:translateY(-2px);}
+
+.certificate{
+  display:none;margin-top:28px;
+  background:linear-gradient(135deg,#0a1628,#142540);
+  border:2px solid var(--gold);border-radius:16px;padding:36px;
+  animation:fadeUp 0.5s ease;
+}
+.certificate.show{display:block;}
+.cert-top{font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;}
+.cert-name{font-family:'Syne',sans-serif;font-size:30px;font-weight:800;color:white;margin:10px 0;}
+.cert-body{font-size:14px;color:var(--lightGray);line-height:1.7;margin-bottom:12px;}
+.cert-date{font-size:12px;color:var(--gray);}
+.cert-print{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--gold);color:var(--navy);font-weight:700;font-size:13px;
+  padding:10px 22px;border-radius:8px;border:none;cursor:pointer;
+  transition:all 0.2s;margin-top:16px;font-family:'DM Sans',sans-serif;
+}
+.cert-print:hover{background:#FFE085;transform:translateY(-2px);}
+
+/* SCORE / NAV */
+.mod-footer{
+  border-top:1px solid rgba(255,255,255,0.05);
+  padding:24px 40px;
+  display:flex;align-items:center;justify-content:space-between;
+  max-width:800px;margin:0 auto;width:100%;
+}
+.nav-btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:12px 26px;border-radius:10px;font-weight:700;font-size:14px;
+  cursor:pointer;border:none;transition:all 0.2s;font-family:'DM Sans',sans-serif;
+}
+.btn-prev{background:transparent;color:var(--gray);border:1.5px solid rgba(255,255,255,0.1);}
+.btn-prev:hover{border-color:var(--teal);color:var(--teal);}
+.btn-next{background:var(--teal);color:var(--navy);}
+.btn-next:hover{background:#00FFE5;transform:translateY(-1px);}
+.btn-next:disabled{opacity:0.4;pointer-events:none;}
+.score-display{font-size:13px;color:var(--gray);}
+.score-num{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:var(--gold);}
+
+/* DIVIDER */
+.divider{height:1px;background:rgba(255,255,255,0.05);margin:24px 0;}
+
+/* HELPLINE */
+.helpline{
+  background:rgba(255,87,87,0.07);border:1px solid rgba(255,87,87,0.2);
+  border-radius:12px;padding:16px 20px;display:flex;gap:12px;margin-bottom:24px;
+}
+.helpline p{font-size:13px;color:var(--lightGray);line-height:1.6;}
+.helpline strong{color:var(--coral);}
+
+@media(max-width:600px){
+  .topbar{padding:0 16px;}
+  .topbar-center{display:none;}
+  .mod-hero{padding:40px 20px 32px;}
+  .mod-body,.mod-footer{padding-left:20px;padding-right:20px;}
+  .compare-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <a href="index.html" class="topbar-logo">Sekurity<span>Tech</span></a>
+  <div class="topbar-center" id="nav-dots"></div>
+  <div class="topbar-right">
+    <span class="mod-counter" id="mod-counter">Module 1 of 8</span>
+    <a href="index.html" class="back-btn">← Hub</a>
+  </div>
+</div>
+
+<div class="module-wrap">
+
+<!-- ═══════ MODULE 0: WELCOME ═══════ -->
+<div class="module active" id="m0">
+  <div class="mod-hero">
+    <div class="mod-badge">Module 1 of 8 · Introduction</div>
+    <h1>🌐 Welcome to CyberShield</h1>
+    <p>Your interactive guide to staying safe in the digital world. Real scenarios, real skills, and a certificate when you're done.</p>
+  </div>
+  <div class="mod-body">
+    <div class="info-grid">
+      <div class="info-card"><div class="info-card-icon">📚</div><h3>8 Modules</h3><p>Covering every major online threat — from phishing to AI deepfakes and gaming safety.</p></div>
+      <div class="info-card"><div class="info-card-icon">🎭</div><h3>Real Scenarios</h3><p>Click-to-reveal danger scenarios based on actual situations children face every day.</p></div>
+      <div class="info-card"><div class="info-card-icon">🧠</div><h3>Quizzes</h3><p>Test your knowledge after each module with instant, explained feedback.</p></div>
+      <div class="info-card"><div class="info-card-icon">🏆</div><h3>Certificate</h3><p>Complete all modules and take the pledge to earn your personalised Cyber Safety Certificate.</p></div>
+    </div>
+
+    <div class="quiz-box">
+      <div class="quiz-q">Before we start — what do you think is the #1 way kids get tricked online?</div>
+      <div class="quiz-scenario-note">This is a reflection question. There's no wrong answer — just think about it!</div>
+      <div class="quiz-opts">
+        <div class="quiz-opt" onclick="reflect(this)"><div class="opt-letter">A</div>Clicking on fake prize messages or links</div>
+        <div class="quiz-opt" onclick="reflect(this)"><div class="opt-letter">B</div>Trusting strangers who seem friendly</div>
+        <div class="quiz-opt" onclick="reflect(this)"><div class="opt-letter">C</div>Sharing personal info without thinking</div>
+        <div class="quiz-opt" onclick="reflect(this)"><div class="opt-letter">D</div>Downloading games or files from unknown sites</div>
+      </div>
+      <div class="quiz-feedback fb-good" id="reflect-fb">Great thought! 🌟 All of these are real ways kids get tricked online — and you'll learn how to spot and stop every one of them in this course. Let's get started!</div>
+    </div>
+  </div>
+  <div class="mod-footer">
+    <div></div>
+    <div class="score-display">Score: <span class="score-num" id="score-display">0</span></div>
+    <button class="nav-btn btn-next" onclick="go(1)">Start Learning →</button>
+  </div>
+</div>
+
+<!-- ═══════ MODULE 1: PERSONAL INFO ═══════ -->
+<div class="module" id="m1">
+  <div class="mod-hero">
+    <div class="mod-badge">Module 2 of 8 · Personal Information</div>
+    <h1>🔒 Protecting Your Personal Info</h1>
+    <p>Your information is like treasure. Once you give it away, you can't get it back. Learn what's safe to share — and what's not.</p>
+  </div>
+  <div class="mod-body">
+    <div class="info-grid">
+      <div class="info-card"><div class="info-card-icon">🚫</div><h3>Never Share Online</h3><p>Full name, home address, school, phone number, or daily routine with anyone you haven't met in real life.</p></div>
+      <div class="info-card"><div class="info-card-icon">📸</div><h3>Photos Reveal More Than You Think</h3><p>School uniforms, street signs, and location data embedded in photos can reveal exactly where you live and study.</p></div>
+      <div class="info-card"><div class="info-card-icon">🎭</div><h3>Always Use a Username</h3><p>Use a fun, neutral nickname online. Never include your real name, birth year, or location in your username.</p></div>
+    </div>
+
+    <p style="font-size:13px;color:var(--gray);margin-bottom:12px;">👆 Click each scenario to reveal what's happening:</p>
+
+    <div class="scenario-grid">
+      <div class="scenario" onclick="revealScen(this)">
+        <div class="scenario-head"><span class="scen-tag tag-danger">Danger</span><span class="scen-title">The Profile Setup Mistake</span></div>
+        <div class="scen-body">Priya creates a new TikTok profile. She uses her full name, adds her school name in the bio, and posts a photo in her school uniform near a recognisable street sign.</div>
+        <div class="scen-hint">Click to see what's wrong ↓</div>
+        <div class="scen-reveal reveal-bad">⚠️ <strong>This reveals too much.</strong> Her full name, school, uniform, and location together make it easy for a stranger to find her in real life. A safe profile uses a nickname, no school name, and no identifying photos. She should also set her account to private.</div>
+      </div>
+      <div class="scenario" onclick="revealScen(this)">
+        <div class="scenario-head"><span class="scen-tag tag-safe">Safe</span><span class="scen-title">The Smart Gamer</span></div>
+        <div class="scen-body">Arjun joins an online game and creates a profile with the username "StarBlaster99", uses a cartoon avatar, leaves the bio blank, and doesn't mention his age, city, or school anywhere.</div>
+        <div class="scen-hint">Click to see why this is good ↓</div>
+        <div class="scen-reveal reveal-good">✅ <strong>This is a safe online profile.</strong> No real name, no photo, no location. Other players can only see what Arjun wants them to see. He can enjoy the game without putting himself at risk.</div>
+      </div>
+      <div class="scenario" onclick="revealScen(this)">
+        <div class="scenario-head"><span class="scen-tag tag-warning">Warning</span><span class="scen-title">The "Check-In" Post</span></div>
+        <div class="scen-body">Meera posts: "SO excited — Mum and Dad away till Sunday, home alone watching Netflix 🏠❤️" with a location tag of her city and neighbourhood.</div>
+        <div class="scen-hint">Click to understand the risk ↓</div>
+        <div class="scen-reveal reveal-bad">⚠️ <strong>This post reveals a dangerous combination:</strong> she's home alone, her parents are away, and her location is tagged. Even if her account is set to "friends only," this type of post creates real safety risks. Never share that you're home alone online.</div>
+      </div>
+    </div>
+
+    <div class="quiz-box">
+      <div class="quiz-q">Quiz: Which of these is safe to share on a public gaming profile?</div>
+      <div class="quiz-scenario-note">You're setting up a new profile on an online game you've just downloaded.</div>
+      <div class="quiz-opts" id="q1-opts">
+        <div class="quiz-opt" onclick="answer(this,'q1',false,'A')"><div class="opt-letter">A</div>Your real first and last name so friends can find you</div>
+        <div class="quiz-opt" onclick="answer(this,'q1',false,'B')"><div class="opt-letter">B</div>Your age and the city you live in</div>
+        <div class="quiz-opt" onclick="answer(this,'q1',true,'C')"><div class="opt-letter">C</div>A fun made-up username and a cartoon avatar</div>
+        <div class="quiz-opt" onclick="answer(this,'q1',false,'D')"><div class="opt-letter">D</div>Your school name so classmates can friend you</div>
+      </div>
+      <div class="quiz-feedback fb-good" id="q1-good">✅ Correct! A made-up username and avatar keep you safe. Real names, locations, and school names can help strangers find you in real life.</div>
+      <div class="quiz-feedback fb-bad" id="q1-bad">❌ Not quite. Personal details like your real name, age, location, and school should never appear on a public gaming profile. A safe profile uses only a neutral username and avatar.</div>
+    </div>
+  </div>
+  <div class="mod-footer">
+    <button class="nav-btn btn-prev" onclick="go(0)">← Back</button>
+    <div class="score-display">Score: <span class="score-num" id="score-display2">0</span></div>
+    <button class="nav-btn btn-next" onclick="go(2)">Next Module →</button>
+  </div>
+</div>
+
+<!-- ═══════ MODULE 2: PHISHING ═══════ -->
+<div class="module" id="m2">
+  <div class="mod-hero">
+    <div class="mod-badge">Module 3 of 8 · Phishing & Scams</div>
+    <h1>🎣 Recognising Phishing & Scams</h1>
+    <p>Scammers are experts at making fake messages look real. Learn the telltale signs — before you click.</p>
+  </div>
+  <div class="mod-body">
+    <div class="rules-list">
+      <div class="rule-item"><div class="rule-num" style="background:rgba(255,87,87,0.15);color:var(--coral);">1</div><div class="rule-body"><h4>Urgency is a red flag</h4><p>"Act NOW or your account will be deleted!" — Real companies never pressure you like this. Urgency is designed to stop you thinking clearly.</p></div></div>
+      <div class="rule-item"><div class="rule-num" style="background:rgba(255,209,102,0.15);color:var(--gold);">2</div><div class="rule-body"><h4>Too good to be true = almost certainly false</h4><p>"You've won 10,000 Robux!" "Free PS5!" If you didn't enter a competition, you didn't win. These links lead to malware or stolen credentials.</p></div></div>
+      <div class="rule-item"><div class="rule-num" style="background:rgba(0,229,204,0.12);color:var(--teal);">3</div><div class="rule-body"><h4>Check the sender's real address</h4><p>Phishing emails often use addresses like support@amazon-verify.net or noreply@paypa1.com (note the "1" not "l"). Always check carefully.</p></div></div>
+      <div class="rule-item"><div class="rule-num" style="background:rgba(167,139,250,0.15);color:var(--purple);">4</div><div class="rule-body"><h4>Never enter passwords on a link you clicked</h4><p>Type website addresses directly into your browser bar. A link in a message might take you to a look-alike fake site designed to steal your login.</p></div></div>
+    </div>
+
+    <div class="scenario-grid">
+      <div class="scenario" onclick="revealScen(this)">
+        <div class="scenario-head"><span class="scen-tag tag-danger">Phishing</span><span class="scen-title">The "Verify Your Account" Email</span></div>
+        <div class="scen-body">You receive an email: "Dear User, your Minecraft account has been flagged for suspicious activity. Click here to verify your account within 24 hours or it will be permanently deleted." The sender is: security@minecraftsupport-verify.com</div>
+        <div class="scen-hint">Click to identify this threat ↓</div>
+        <div class="scen-reveal reveal-bad">🎣 <strong>Classic phishing.</strong> Signs: (1) Urgency — "24 hours or deleted" (2) Fear tactic — "suspicious activity" (3) Fake sender domain — real Minecraft support is @mojang.com, not "minecraftsupport-verify.com". Delete this email. Never click the link. Report it to a parent.</div>
+      </div>
+      <div class="scenario" onclick="revealScen(this)">
+        <div class="scenario-head"><span class="scen-tag tag-danger">Scam</span><span class="scen-title">The Free V-Bucks Generator</span></div>
+        <div class="scen-body">A YouTube comment says: "I got FREE V-Bucks from this site! 🔥 Just enter your username and password to claim yours: [link]" It has 847 likes and lots of comments saying "Thanks, it worked!"</div>
+        <div class="scen-hint">Click to see the truth ↓</div>
+        <div class="scen-reveal reveal-bad">⚠️ <strong>This is a credential-stealing scam.</strong> Free V-Bucks generators do not exist. The "likes" and "it worked" comments are fake — bots or paid accounts. Entering your username and password gives scammers full access to your Fortnite (and possibly other) accounts. Never enter game credentials on third-party sites.</div>
+      </div>
+      <div class="scenario" onclick="revealScen(this)">
+        <div class="scenario-head"><span class="scen-tag tag-safe">Safe</span><span class="scen-title">The Real Password Reset</span></div>
+        <div class="scen-body">You forgot your Instagram password and clicked "Forgot password?" Instagram sends an email from security@mail.instagram.com with a reset link. The link goes to instagram.com.</div>
+        <div class="scen-hint">Click to confirm why this is safe ↓</div>
+        <div class="scen-reveal reveal-good">✅ <strong>This is a legitimate reset email.</strong> Key checks: (1) You initiated it — you clicked "forgot password" (2) Sender is @mail.instagram.com — the real domain (3) Link goes to instagram.com, not a look-alike. Always verify the URL bar after clicking.</div>
+      </div>
+    </div>
+
+    <div class="quiz-box">
+      <div class="quiz-q">Quiz: You get a WhatsApp message from an unknown number: "You've won a brand new iPhone 15! Tap here to claim your prize NOW before it expires!" What should you do?</div>
+      <div class="quiz-scenario-note">You didn't enter any competition. The message has a short link you don't recognise.</div>
+      <div class="quiz-opts" id="q2-opts">
+        <div class="quiz-opt" onclick="answer(this,'q2',false,'A')"><div class="opt-letter">A</div>Tap the link quickly before the prize expires</div>
+        <div class="quiz-opt" onclick="answer(this,'q2',false,'B')"><div class="opt-letter">B</div>Forward it to friends so they can claim a prize too</div>
+        <div class="quiz-opt" onclick="answer(this,'q2',true,'C')"><div class="opt-letter">C</div>Delete the message and block the number — it's a scam</div>
+        <div class="quiz-opt" onclick="answer(this,'q2',false,'D')"><div class="opt-letter">D</div>Reply asking for more details about the prize</div>
+      </div>
+      <div class="quiz-feedback fb-good" id="q2-good">✅ Correct! You didn't enter a competition, so you can't have won. The link is phishing — designed to steal your data or infect your device. Delete and block. Never reply or forward scam messages.</div>
+      <div class="quiz-feedback fb-bad" id="q2-bad">❌ That's what scammers want you to do! Clicking, forwarding, or replying all confirm your number is active and can spread the scam. Always delete unexpected "prize" messages. You cannot win something you didn't enter.</div>
+    </div>
+  </div>
+  <div class="mod-footer">
+    <button class="nav-btn btn-prev" onclick="go(1)">← Back</button>
+    <div></div>
+    <button class="nav-btn btn-next" onclick="go(3)">Next Module →</button>
+  </div>
+</div>
+
+<!-- ═══════ MODULE 3: GROOMING ═══════ -->
+<div class="module" id="m3">
+  <div class="mod-hero">
+    <div class="mod-badge">Module 4 of 8 · Online Grooming</div>
+    <h1>😈 Understanding Online Grooming</h1>
+    <p>Grooming happens gradually. Knowing the warning signs helps you recognise it early — and stay safe.</p>
+  </div>
+  <div class="mod-body">
+    <div class="info-grid">
+      <div class="info-card"><div class="info-card-icon">🔍</div><h3>What Is Grooming?</h3><p>When an adult builds a fake friendship with a child online to gain their trust — often with the intention of exploitation or abuse.</p></div>
+      <div class="info-card"><div class="info-card-icon">🕐</div><h3>It Happens Slowly</h3><p>Groomers are patient. They spend weeks or months building "friendship" before making requests or suggestions that cross the line.</p></div>
+      <div class="info-card"><div class="info-card-icon">🤫</div><h3>Secrets Are the #1 Warning Sign</h3><p>If someone tells you to keep your conversations secret from parents — that is a serious red flag, regardless of who they claim to be.</p></div>
+    </div>
+
+    <div class="rules-list">
+      <div class="rule-item"><div class="rule-num" style="background:rgba(255,87,87,0.15);color:var(--coral);">⚠️</div><div class="rule-body"><h4>"Keep this between us" — Always a red flag</h4><p>Trusted adults and real friends never ask children to hide conversations from parents or guardians.</p></div></div>
+      <div class="rule-item"><div class="rule-num" style="background:rgba(255,87,87,0.15);color:var(--coral);">⚠️</div><div class="rule-body"><h4>Unexpected gifts, game credits, or money</h4><p>Gifts create a sense of obligation. If an online "friend" sends gifts without being asked, ask yourself why.</p></div></div>
+      <div class="rule-item"><div class="rule-num" style="background:rgba(255,87,87,0.15);color:var(--coral);">⚠️</div><div class="rule-body"><h4>Requests for photos or video calls</h4><p>A trusted online acquaintance does not need photos of you. Any request for personal images should be reported to a parent immediately.</p></div></div>
+      <div class="rule-item"><div class="rule-num" style="background:rgba(255,87,87,0.15);color:var(--coral);">⚠️</div><div class="rule-body"><h4>Moving to a private platform quickly</h4><p>"Let's talk on WhatsApp instead" — moving away from moderated platforms removes protective oversight.</p></div></div>
+    </div>
+
+    <div class="step-flow">
+      <div class="step-item"><div class="step-circle">🛑</div><div class="step-content"><h4>STOP</h4><p>Stop all communication immediately. Don't explain yourself — just stop responding.</p></div></div>
+      <div class="step-item"><div class="step-circle">📸</div><div class="step-content"><h4>SCREENSHOT</h4><p>Take screenshots of the conversation as evidence before blocking.</p></div></div>
+      <div class="step-item"><div class="step-circle">🚫</div><div class="step-content"><h4>BLOCK & REPORT</h4><p>Block the account and use the platform's report function.</p></div></div>
+      <div class="step-item"><div class="step-circle">🗣️</div><div class="step-content"><h4>TELL A TRUSTED ADULT</h4><p>Tell a parent, teacher, or guardian immediately. You will not get in trouble — you did nothing wrong.</p></div></div>
+    </div>
+
+    <div class="helpline">
+      <span style="font-size:24px;">🆘</span>
+      <p><strong>Need help now?</strong> Childline India: <strong>1098</strong> (free, 24/7) · Childline UK: <strong>0800 1111</strong> · NCMEC: <strong>1-800-843-5678</strong> · India Cybercrime: <strong>cybercrime.gov.in</strong></p>
+    </div>
+
+    <div class="quiz-box">
+      <div class="quiz-q">Quiz: Someone you met in an online game says they are 14, sends you gifts and is very friendly. After a few weeks they ask for a photo of you and say "don't tell your parents." What should you do?</div>
+      <div class="quiz-scenario-note">This person feels like a friend. But something feels uncomfortable about this request.</div>
+      <div class="quiz-opts" id="q3-opts">
+        <div class="quiz-opt" onclick="answer(this,'q3',false,'A')"><div class="opt-letter">A</div>Send a photo — you've known them for weeks and they seem nice</div>
+        <div class="quiz-opt" onclick="answer(this,'q3',false,'B')"><div class="opt-letter">B</div>Ask them why they want it before deciding</div>
+        <div class="quiz-opt" onclick="answer(this,'q3',true,'C')"><div class="opt-letter">C</div>Stop talking, screenshot the chat, and tell a parent immediately</div>
+        <div class="quiz-opt" onclick="answer(this,'q3',false,'D')"><div class="opt-letter">D</div>Block them but don't tell anyone — it's embarrassing</div>
+      </div>
+      <div class="quiz-feedback fb-good" id="q3-good">✅ Correct! "Don't tell your parents" is the clearest grooming warning sign there is. You can never verify who someone really is online. Screenshot → Block → Tell a trusted adult. You did nothing wrong.</div>
+      <div class="quiz-feedback fb-bad" id="q3-bad">❌ "Don't tell your parents" is an immediate red flag — regardless of how long you've known someone online. A real friend never asks for secrecy from your parents. Stop, screenshot, block, and tell a trusted adult right away.</div>
+    </div>
+  </div>
+  <div class="mod-footer">
+    <button class="nav-btn btn-prev" onclick="go(2)">← Back</button>
+    <div></div>
+    <button class="nav-btn btn-next" onclick="go(4)">Next Module →</button>
+  </div>
+</div>
+
+<!-- ═══════ MODULE 4: CYBERBULLYING ═══════ -->
+<div class="module" id="m4">
+  <div class="mod-hero">
+    <div class="mod-badge">Module 5 of 8 · Cyberbullying</div>
+    <h1>💬 Cyberbullying — Recognise, Respond, Report</h1>
+    <p>Online words cause real pain. Learn how to identify cyberbullying, protect yourself, and support others.</p>
+  </div>
+  <div class="mod-body">
+    <div class="compare-grid">
+      <div class="compare-col">
+        <div class="compare-header good-hd">✅ Positive Online Behaviour</div>
+        <div class="compare-items">
+          <div class="compare-item">Giving genuine compliments and encouragement</div>
+          <div class="compare-item">Sharing content with permission of the person in it</div>
+          <div class="compare-item">Respectfully disagreeing in comments</div>
+          <div class="compare-item">Supporting friends who are struggling online</div>
+          <div class="compare-item">Reporting harmful content instead of sharing it</div>
+        </div>
+      </div>
+      <div class="compare-col">
+        <div class="compare-header bad-hd">❌ Cyberbullying Behaviours</div>
+        <div class="compare-items">
+          <div class="compare-item">Sending mean, threatening, or insulting messages</div>
+          <div class="compare-item">Sharing embarrassing photos without consent</div>
+          <div class="compare-item">Creating fake profiles to mock someone</div>
+          <div class="compare-item">Deliberately excluding someone from group chats</div>
+          <div class="compare-item">Spreading rumours or lies about someone online</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="scenario-grid">
+      <div class="scenario" onclick="revealScen(this)">
+        <div class="scenario-head"><span class="scen-tag tag-danger">Cyberbullying</span><span class="scen-title">The Humiliating Post</span></div>
+        <div class="scen-body">Someone at school screenshots a funny photo of you from a private group chat and posts it publicly on Instagram, tagging your name and writing a mocking caption. It gets 50 comments laughing at you.</div>
+        <div class="scen-hint">Click to see what to do ↓</div>
+        <div class="scen-reveal reveal-bad">⚠️ <strong>This is cyberbullying — and possibly illegal.</strong> Step 1: Screenshot the post and all comments as evidence. Step 2: Report the post to Instagram for "bullying or harassment." Step 3: Tell a trusted adult — parent or teacher. Step 4: Ask the school for support. Do NOT retaliate — it can make things worse legally.</div>
+      </div>
+      <div class="scenario" onclick="revealScen(this)">
+        <div class="scenario-head"><span class="scen-tag tag-warning">Bystander Moment</span><span class="scen-title">The Group Chat Pile-On</span></div>
+        <div class="scen-body">In a class WhatsApp group, several people start making fun of a classmate. Others are laughing along or sending laugh emojis. You're not saying anything, but you're still in the group.</div>
+        <div class="scen-hint">Click to understand your role ↓</div>
+        <div class="scen-reveal reveal-info">💡 <strong>Silence can feel like approval.</strong> As a bystander, you have power too. Options: (1) Privately message the person being targeted to show support. (2) Say in the group "This isn't funny, let's stop." (3) Screenshot and report to a trusted adult. Staying silent and hoping it stops rarely works — and can make the target feel more alone.</div>
+      </div>
+    </div>
+
+    <div class="quiz-box">
+      <div class="quiz-q">Quiz: Your classmate posts a humiliating photo of you online without your permission. You feel hurt and angry. What is the BEST first step?</div>
+      <div class="quiz-scenario-note">The photo is getting likes and mean comments. Your instinct is to react immediately.</div>
+      <div class="quiz-opts" id="q4-opts">
+        <div class="quiz-opt" onclick="answer(this,'q4',false,'A')"><div class="opt-letter">A</div>Post something equally humiliating about them in revenge</div>
+        <div class="quiz-opt" onclick="answer(this,'q4',false,'B')"><div class="opt-letter">B</div>Ignore it completely — it will probably blow over</div>
+        <div class="quiz-opt" onclick="answer(this,'q4',true,'C')"><div class="opt-letter">C</div>Screenshot everything, then tell a trusted adult and report the post</div>
+        <div class="quiz-opt" onclick="answer(this,'q4',false,'D')"><div class="opt-letter">D</div>Get all your friends to report it without telling an adult</div>
+      </div>
+      <div class="quiz-feedback fb-good" id="q4-good">✅ Correct! Screenshot first (evidence disappears when you block). Then tell a trusted adult — they can help you report to the school and platform officially. You don't have to handle this alone.</div>
+      <div class="quiz-feedback fb-bad" id="q4-bad">❌ Retaliation escalates the situation and can get you in trouble too. Ignoring gives it more time to spread. Always: Screenshot → Tell an adult → Report officially. These three steps protect you most effectively.</div>
+    </div>
+  </div>
+  <div class="mod-footer">
+    <button class="nav-btn btn-prev" onclick="go(3)">← Back</button>
+    <div></div>
+    <button class="nav-btn btn-next" onclick="go(5)">Next Module →</button>
+  </div>
+</div>
+
+<!-- ═══════ MODULE 5: AI & DEEPFAKES ═══════ -->
+<div class="module" id="m5">
+  <div class="mod-hero">
+    <div class="mod-badge">Module 6 of 8 · AI & Deepfakes</div>
+    <h1>🤖 AI, Deepfakes & Misinformation</h1>
+    <p>AI can now create realistic fake videos, voices, and photos of real people. Learn to spot them — and protect yourself.</p>
+  </div>
+  <div class="mod-body">
+    <div class="info-grid">
+      <div class="info-card"><div class="info-card-icon">🎭</div><h3>What Is a Deepfake?</h3><p>An AI-generated fake video or image that replaces someone's face or voice with another person's — often without their knowledge or consent.</p></div>
+      <div class="info-card"><div class="info-card-icon">📞</div><h3>Voice Cloning</h3><p>AI can clone anyone's voice from just a few seconds of audio. Scammers use this to impersonate family members in fake "emergency" calls.</p></div>
+      <div class="info-card"><div class="info-card-icon">🔍</div><h3>How to Spot Fakes</h3><p>Look for: unnatural blinking, blurry edges around the face, inconsistent lighting, audio that doesn't quite match mouth movement.</p></div>
+    </div>
+
+    <div class="scenario-grid">
+      <div class="scenario" onclick="revealScen(this)">
+        <div class="scenario-head"><span class="scen-tag tag-danger">AI Scam</span><span class="scen-title">The Fake Emergency Call</span></div>
+        <div class="scen-body">You receive a frantic call that sounds exactly like your mum: "I've been in an accident and I need you to send ₹5,000 to this number right away. Don't tell Dad. Please hurry." The voice sounds completely real.</div>
+        <div class="scen-hint">Click to understand this threat ↓</div>
+        <div class="scen-reveal reveal-bad">🤖 <strong>This is an AI voice cloning scam.</strong> Scammers can clone voices from social media videos. Always hang up and call the person back directly on their known number to verify. Never transfer money based on an unexpected call, even if the voice sounds familiar. Create a family "safe word" for real emergencies.</div>
+      </div>
+      <div class="scenario" onclick="revealScen(this)">
+        <div class="scenario-head"><span class="scen-tag tag-danger">Deepfake</span><span class="scen-title">The Viral School Video</span></div>
+        <div class="scen-body">A video goes around your school showing what appears to be a classmate saying something offensive. Everyone is sharing it and getting angry. But when you look closely, the face movements look slightly "off."</div>
+        <div class="scen-hint">Click to see what to do ↓</div>
+        <div class="scen-reveal reveal-info">💡 <strong>Pause before reacting.</strong> This could be a deepfake designed to damage someone's reputation. Signs of a deepfake: unnatural blinking, face edges look blurry, audio slightly out of sync. Don't share until verified. Report to a trusted adult. The person in the video may be an innocent victim of AI manipulation.</div>
+      </div>
+    </div>
+
+    <div class="quiz-box">
+      <div class="quiz-q">Quiz: A shocking video clip goes viral showing a famous person saying something terrible. It has millions of views. What should you do before sharing it?</div>
+      <div class="quiz-scenario-note">The content is outrageous. Your first instinct is to share it with everyone you know.</div>
+      <div class="quiz-opts" id="q5-opts">
+        <div class="quiz-opt" onclick="answer(this,'q5',false,'A')"><div class="opt-letter">A</div>Share it immediately — millions of people can't all be wrong</div>
+        <div class="quiz-opt" onclick="answer(this,'q5',true,'B')"><div class="opt-letter">B</div>Pause, check a trusted news source, and look for signs of manipulation</div>
+        <div class="quiz-opt" onclick="answer(this,'q5',false,'C')"><div class="opt-letter">C</div>Share it but add "I'm not sure this is real" in your caption</div>
+        <div class="quiz-opt" onclick="answer(this,'q5',false,'D')"><div class="opt-letter">D</div>Ask your friends what they think, then share if they agree</div>
+      </div>
+      <div class="quiz-feedback fb-good" id="q5-good">✅ Correct! Viral reach doesn't equal truth — deepfakes spread fastest because they trigger outrage. Always check a second trusted source (BBC, Reuters, AP) before sharing anything shocking. Sharing a deepfake — even innocently — causes real harm to real people.</div>
+      <div class="quiz-feedback fb-bad" id="q5-bad">❌ Popularity is not the same as truth. Deepfakes are designed to go viral. Before sharing anything outrageous, verify it with a trusted news source. If it turns out to be fake, you've helped spread misinformation — and caused harm to an innocent person.</div>
+    </div>
+  </div>
+  <div class="mod-footer">
+    <button class="nav-btn btn-prev" onclick="go(4)">← Back</button>
+    <div></div>
+    <button class="nav-btn btn-next" onclick="go(6)">Next Module →</button>
+  </div>
+</div>
+
+<!-- ═══════ MODULE 6: GAMING SAFETY ═══════ -->
+<div class="module" id="m6">
+  <div class="mod-hero">
+    <div class="mod-badge">Module 7 of 8 · Online Gaming Safety</div>
+    <h1>🎮 Staying Safe While Gaming Online</h1>
+    <p>Online games are where millions of children socialise, play, and learn — and where predators increasingly look for targets.</p>
+  </div>
+  <div class="mod-body">
+    <div class="compare-grid">
+      <div class="compare-col">
+        <div class="compare-header good-hd">✅ Safe Gaming Habits</div>
+        <div class="compare-items">
+          <div class="compare-item">Use a neutral username with no real name or age</div>
+          <div class="compare-item">Play with friends you know in real life</div>
+          <div class="compare-item">Keep all chat to game-related topics only</div>
+          <div class="compare-item">Report offensive players using in-game tools</div>
+          <div class="compare-item">Get parent approval before in-app purchases</div>
+          <div class="compare-item">Know how to mute, block, and report</div>
+        </div>
+      </div>
+      <div class="compare-col">
+        <div class="compare-header bad-hd">❌ Risky Gaming Habits</div>
+        <div class="compare-items">
+          <div class="compare-item">Sharing personal info in voice/text chat</div>
+          <div class="compare-item">Accepting gifts or credits from strangers</div>
+          <div class="compare-item">Clicking external links from other players</div>
+          <div class="compare-item">Moving to private chat outside the game</div>
+          <div class="compare-item">Agreeing to meet a "gaming friend" in person</div>
+          <div class="compare-item">Giving your account to someone to "level up"</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="scenario-grid">
+      <div class="scenario" onclick="revealScen(this)">
+        <div class="scenario-head"><span class="scen-tag tag-danger">Gaming Danger</span><span class="scen-title">The Too-Generous Stranger</span></div>
+        <div class="scen-body">While playing an online game, a player you've never met sends you expensive in-game items and says "I just want to be friends and help you level up. Can we move to Discord to chat more easily?"</div>
+        <div class="scen-hint">Click to see the red flags ↓</div>
+        <div class="scen-reveal reveal-bad">⚠️ <strong>Multiple grooming red flags here.</strong> (1) Unsolicited expensive gifts create a sense of obligation. (2) Wanting to move to a private, unmoderated platform (Discord) removes protective oversight. Block this player, report them in-game, and tell a parent about the conversation. Do not move the conversation off the platform.</div>
+      </div>
+      <div class="scenario" onclick="revealScen(this)">
+        <div class="scenario-head"><span class="scen-tag tag-warning">Scam Attempt</span><span class="scen-title">Account Recovery Scam</span></div>
+        <div class="scen-body">"Hi! I'm a Roblox support agent. We've detected suspicious activity on your account. Give me your username and password so I can secure it for you."</div>
+        <div class="scen-hint">Click to understand this scam ↓</div>
+        <div class="scen-reveal reveal-bad">⚠️ <strong>Roblox, Fortnite, or any real game company will NEVER ask for your password.</strong> This is account theft. Real support always goes through the official website's help centre — never through in-game chat. Ignore, report the player, and change your password if you felt pressured.</div>
+      </div>
+    </div>
+
+    <div class="quiz-box">
+      <div class="quiz-q">Quiz: A player you've only ever met online says they'll be at a shopping mall in your city this weekend and wants to meet up in person. They seem really nice. What should you do?</div>
+      <div class="quiz-opts" id="q6-opts">
+        <div class="quiz-opt" onclick="answer(this,'q6',false,'A')"><div class="opt-letter">A</div>Meet them — you've played together for months, they're safe</div>
+        <div class="quiz-opt" onclick="answer(this,'q6',false,'B')"><div class="opt-letter">B</div>Go but bring a friend so it's safer</div>
+        <div class="quiz-opt" onclick="answer(this,'q6',true,'C')"><div class="opt-letter">C</div>Never meet — tell a trusted adult about the request immediately</div>
+        <div class="quiz-opt" onclick="answer(this,'q6',false,'D')"><div class="opt-letter">D</div>Ask for a video call first to confirm they are who they say</div>
+      </div>
+      <div class="quiz-feedback fb-good" id="q6-good">✅ Correct! You cannot verify who someone really is online — even after months of playing together. Meeting requests from online-only friends are a critical warning sign. Always tell a trusted adult. A real friend who cares for your safety would understand.</div>
+      <div class="quiz-feedback fb-bad" id="q6-bad">❌ Online-only relationships cannot be fully verified, no matter how long they've lasted. Meeting someone from online in person — without a parent's knowledge and involvement — is one of the most dangerous situations children can face. Always refuse and immediately tell a trusted adult.</div>
+    </div>
+  </div>
+  <div class="mod-footer">
+    <button class="nav-btn btn-prev" onclick="go(5)">← Back</button>
+    <div></div>
+    <button class="nav-btn btn-next" onclick="go(7)">Final Module →</button>
+  </div>
+</div>
+
+<!-- ═══════ MODULE 7: PLEDGE ═══════ -->
+<div class="module" id="m7" id="pledge">
+  <div class="mod-hero">
+    <div class="mod-badge">Module 8 of 8 · Pledge & Certificate</div>
+    <h1>🏆 You've Done It! Take the Pledge</h1>
+    <p>You've completed all 7 learning modules. Sign your pledge and earn your official Cyber Safety Certificate.</p>
+  </div>
+  <div class="mod-body">
+    <div class="rules-list" style="margin-bottom:32px;">
+      <div class="rule-item"><div class="rule-num" style="background:rgba(0,229,204,0.1);color:var(--teal);">✓</div><div class="rule-body"><h4>Personal Information</h4><p>You know what to share, what to keep private, and how to create a safe online identity.</p></div></div>
+      <div class="rule-item"><div class="rule-num" style="background:rgba(0,229,204,0.1);color:var(--teal);">✓</div><div class="rule-body"><h4>Phishing & Scams</h4><p>You can recognise fake messages, suspicious links, and "too good to be true" offers.</p></div></div>
+      <div class="rule-item"><div class="rule-num" style="background:rgba(0,229,204,0.1);color:var(--teal);">✓</div><div class="rule-body"><h4>Grooming Awareness</h4><p>You know the warning signs and exactly what to do if something feels wrong.</p></div></div>
+      <div class="rule-item"><div class="rule-num" style="background:rgba(0,229,204,0.1);color:var(--teal);">✓</div><div class="rule-body"><h4>Cyberbullying, AI Deepfakes & Gaming Safety</h4><p>You can recognise, respond, and report across every major digital threat.</p></div></div>
+    </div>
+
+    <div class="pledge-section">
+      <div style="font-size:52px;margin-bottom:16px;">🛡️</div>
+      <h2 style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--gold);margin-bottom:4px;">My Cyber Safety Pledge</h2>
+      <div class="pledge-text">
+        "I pledge to protect my personal information online.<br>
+        I will think before I click, post, or share.<br>
+        I will be kind and respectful in every digital space.<br>
+        If something feels wrong, I will stop and tell a trusted adult.<br>
+        I am a responsible, confident digital citizen. 🌐"
+      </div>
+      <p style="font-size:13px;color:var(--gray);margin-bottom:12px;">Enter your first name to sign:</p>
+      <input type="text" class="pledge-name-input" id="pledge-name" placeholder="Your first name..." maxlength="40">
+      <br>
+      <button class="sign-btn" onclick="signPledge()">✍️ Sign My Pledge & Get Certificate</button>
+
+      <div class="certificate" id="cert">
+        <div class="cert-top">🏅 Certificate of Completion</div>
+        <div style="font-size:13px;color:var(--gray);margin-top:4px;">This certifies that</div>
+        <div class="cert-name" id="cert-name"></div>
+        <div class="cert-body">has successfully completed all 8 modules of the <strong>CyberShield Kids Awareness Programme</strong> and has taken the pledge to be a safe, kind, and responsible digital citizen.</div>
+        <div style="font-size:20px;margin:12px 0;">🌟 🛡️ 🌐 🔐 🌟</div>
+        <div class="cert-date" id="cert-date"></div>
+        <div style="margin-top:8px;font-size:11px;color:var(--gray);">Issued by SekurityTech Awareness · awareness.sekuritytech.com</div>
+        <button class="cert-print" onclick="window.print()">🖨️ Print Certificate</button>
+      </div>
+    </div>
+
+    <div class="helpline">
+      <span style="font-size:24px;">📚</span>
+      <p><strong>Keep Learning:</strong> Childnet: <a href="https://childnet.com" style="color:var(--teal)">childnet.com</a> · StaySafeOnline: <a href="https://staysafeonline.org" style="color:var(--teal)">staysafeonline.org</a> · India Cybercrime: <a href="https://cybercrime.gov.in" style="color:var(--teal)">cybercrime.gov.in</a></p>
+    </div>
+  </div>
+  <div class="mod-footer">
+    <button class="nav-btn btn-prev" onclick="go(6)">← Back</button>
+    <div class="score-display">Final Score: <span class="score-num" id="final-score">0</span> / 6</div>
+    <button class="nav-btn btn-next" onclick="go(0)" style="background:var(--purple);">🔄 Restart</button>
+  </div>
+</div>
+
+</div><!-- /module-wrap -->
+
+<script>
+const TOTAL_MODS = 8;
+let score = 0;
+const answered = {};
+const dotsEl = document.getElementById('nav-dots');
+
+// Build nav dots
+for(let i=0;i<TOTAL_MODS;i++){
+  const d=document.createElement('div');
+  d.className='mod-dot-nav'+(i===0?' active':'');
+  d.onclick=()=>go(i);
+  dotsEl.appendChild(d);
+}
+
+function go(idx){
+  document.querySelectorAll('.module').forEach((m,i)=>m.classList.toggle('active',i===idx));
+  document.querySelectorAll('.mod-dot-nav').forEach((d,i)=>{
+    d.classList.remove('active','done');
+    if(i<idx) d.classList.add('done');
+    else if(i===idx) d.classList.add('active');
+  });
+  document.getElementById('mod-counter').textContent=`Module ${idx+1} of ${TOTAL_MODS}`;
+  window.scrollTo({top:0,behavior:'smooth'});
+  updateScores();
+}
+
+function reflect(el){
+  document.querySelectorAll('#m0 .quiz-opt').forEach(o=>o.classList.add('disabled'));
+  el.classList.add('correct');
+  document.getElementById('reflect-fb').classList.add('show');
+}
+
+function answer(el, qId, isCorrect, letter){
+  if(answered[qId]) return;
+  answered[qId]=true;
+  const opts=document.querySelectorAll(`#${qId}-opts .quiz-opt`);
+  opts.forEach(o=>o.classList.add('disabled'));
+  if(isCorrect){
+    el.classList.add('correct');
+    score++;
+  } else {
+    el.classList.add('wrong');
+    opts.forEach(o=>{
+      if(o.onclick && o.getAttribute('onclick') && o.getAttribute('onclick').includes(',true,')) o.classList.add('correct');
+    });
+  }
+  const goodFb=document.getElementById(`${qId}-good`);
+  const badFb=document.getElementById(`${qId}-bad`);
+  if(isCorrect && goodFb) goodFb.classList.add('show');
+  if(!isCorrect && badFb) badFb.classList.add('show');
+  updateScores();
+}
+
+function updateScores(){
+  ['score-display','score-display2','final-score'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el) el.textContent=score;
+  });
+}
+
+function revealScen(el){
+  el.classList.toggle('revealed');
+}
+
+function signPledge(){
+  const name=document.getElementById('pledge-name').value.trim();
+  if(!name){alert('Please enter your name to sign the pledge! 🙂');return;}
+  document.getElementById('cert-name').textContent=name;
+  const d=new Date();
+  document.getElementById('cert-date').textContent='Completed on '+d.toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
+  document.getElementById('cert').classList.add('show');
+  document.getElementById('pledge-name').disabled=true;
+}
+</script>
+</body>
+</html>
