@@ -1,0 +1,1351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cyber Awareness for All — Digital Safety for Everyone</title>
+  <meta name="description" content="An open-source cybersecurity awareness initiative educating children, parents, and organizations on digital safety, privacy, and threat prevention." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:       #050b12;
+      --bg2:      #080f18;
+      --surface:  #0d1a26;
+      --border:   #112233;
+      --teal:     #00e5c3;
+      --teal2:    #00b89a;
+      --amber:    #ffb547;
+      --red:      #ff4c6a;
+      --blue:     #3d9efc;
+      --white:    #e8f4f8;
+      --muted:    #6a8fa8;
+      --glow:     0 0 24px rgba(0,229,195,.25);
+      --glow-sm:  0 0 10px rgba(0,229,195,.18);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+      line-height: 1.65;
+    }
+
+    /* ─── CANVAS BACKGROUND ─── */
+    #matrix-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      opacity: .045;
+      pointer-events: none;
+    }
+
+    /* ─── GRID OVERLAY ─── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,229,195,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,229,195,.04) 1px, transparent 1px);
+      background-size: 48px 48px;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ─── WRAPPER ─── */
+    .wrap { position: relative; z-index: 1; }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 48px;
+      background: rgba(5, 11, 18, .82);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    .nav-logo-icon {
+      width: 36px; height: 36px;
+      border: 1.5px solid var(--teal);
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      box-shadow: var(--glow-sm);
+    }
+
+    .nav-logo-icon svg { width: 20px; height: 20px; }
+
+    .nav-logo-text {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: .03em;
+      color: var(--white);
+    }
+
+    .nav-logo-text span { color: var(--teal); }
+
+    .nav-links {
+      display: flex;
+      gap: 36px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: .78rem;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: .08em;
+      transition: color .2s;
+    }
+
+    .nav-links a:hover { color: var(--teal); }
+
+    .nav-cta {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: .78rem;
+      padding: 10px 22px;
+      background: transparent;
+      border: 1px solid var(--teal);
+      color: var(--teal);
+      border-radius: 6px;
+      text-decoration: none;
+      letter-spacing: .08em;
+      transition: background .2s, box-shadow .2s;
+    }
+
+    .nav-cta:hover {
+      background: rgba(0,229,195,.1);
+      box-shadow: var(--glow-sm);
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 120px 48px 80px;
+      position: relative;
+    }
+
+    .hero-content {
+      max-width: 760px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: .72rem;
+      letter-spacing: .14em;
+      color: var(--teal);
+      border: 1px solid rgba(0,229,195,.3);
+      padding: 7px 16px;
+      border-radius: 100px;
+      margin-bottom: 32px;
+      animation: fadeUp .7s ease both;
+    }
+
+    .badge-dot {
+      width: 6px; height: 6px;
+      background: var(--teal);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: .3; }
+    }
+
+    .hero h1 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      line-height: 1.06;
+      letter-spacing: -.02em;
+      margin-bottom: 24px;
+      animation: fadeUp .7s .1s ease both;
+    }
+
+    .hero h1 .line-teal { color: var(--teal); }
+    .hero h1 .line-dim  { color: var(--muted); font-weight: 400; }
+
+    .hero-sub {
+      font-size: 1.15rem;
+      color: var(--muted);
+      max-width: 540px;
+      margin-bottom: 48px;
+      animation: fadeUp .7s .2s ease both;
+    }
+
+    .hero-sub strong { color: var(--white); font-weight: 500; }
+
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      animation: fadeUp .7s .3s ease both;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 15px 32px;
+      background: var(--teal);
+      color: var(--bg);
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: .92rem;
+      letter-spacing: .04em;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: box-shadow .2s, transform .2s;
+    }
+
+    .btn-primary:hover {
+      box-shadow: 0 0 32px rgba(0,229,195,.45);
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 15px 32px;
+      background: transparent;
+      color: var(--white);
+      font-family: 'Syne', sans-serif;
+      font-weight: 600;
+      font-size: .92rem;
+      letter-spacing: .04em;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      text-decoration: none;
+      transition: border-color .2s, background .2s;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--teal);
+      background: rgba(0,229,195,.06);
+    }
+
+    /* hero decoration */
+    .hero-visual {
+      position: absolute;
+      right: 4vw;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 480px;
+      height: 480px;
+      pointer-events: none;
+      animation: fadeIn 1s .4s ease both;
+    }
+
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* hero stat strip */
+    .hero-stats {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      gap: 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background: rgba(13,26,38,.7);
+      animation: fadeUp .7s .4s ease both;
+    }
+
+    .stat {
+      flex: 1;
+      padding: 28px 40px;
+      border-right: 1px solid var(--border);
+    }
+
+    .stat:last-child { border-right: none; }
+
+    .stat-num {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 2.2rem;
+      color: var(--teal);
+      display: block;
+      letter-spacing: -.02em;
+    }
+
+    .stat-label {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: .72rem;
+      color: var(--muted);
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      margin-top: 4px;
+      display: block;
+    }
+
+    /* ─── SECTIONS ─── */
+    section { position: relative; z-index: 1; }
+
+    .section-label {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: .72rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 14px;
+    }
+
+    .section-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      letter-spacing: -.02em;
+      line-height: 1.12;
+      margin-bottom: 20px;
+    }
+
+    .section-desc {
+      color: var(--muted);
+      max-width: 520px;
+      font-size: 1rem;
+    }
+
+    /* ─── RESOURCES ─── */
+    .resources {
+      padding: 100px 48px;
+    }
+
+    .resources-header {
+      margin-bottom: 64px;
+    }
+
+    .resource-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+    }
+
+    .resource-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 36px;
+      text-decoration: none;
+      color: inherit;
+      transition: border-color .25s, transform .25s, box-shadow .25s;
+      position: relative;
+      overflow: hidden;
+      display: block;
+    }
+
+    .resource-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(0,229,195,.06) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity .3s;
+    }
+
+    .resource-card:hover {
+      border-color: var(--teal);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 48px rgba(0,0,0,.4), var(--glow-sm);
+    }
+
+    .resource-card:hover::before { opacity: 1; }
+
+    .card-icon {
+      width: 52px; height: 52px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 24px;
+      font-size: 1.6rem;
+    }
+
+    .card-tag {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: .68rem;
+      letter-spacing: .12em;
+      padding: 4px 10px;
+      border-radius: 4px;
+      margin-bottom: 16px;
+      display: inline-block;
+    }
+
+    .resource-card h3 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1.25rem;
+      margin-bottom: 12px;
+      letter-spacing: -.01em;
+    }
+
+    .resource-card p {
+      font-size: .92rem;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 28px;
+    }
+
+    .card-audience {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 28px;
+    }
+
+    .audience-chip {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: .65rem;
+      letter-spacing: .1em;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 4px 12px;
+    }
+
+    .card-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Syne', sans-serif;
+      font-weight: 600;
+      font-size: .85rem;
+      letter-spacing: .04em;
+      transition: gap .2s;
+    }
+
+    .resource-card:hover .card-link { gap: 14px; }
+
+    /* card colors */
+    .card-teal .card-icon  { background: rgba(0,229,195,.1); }
+    .card-teal .card-tag   { background: rgba(0,229,195,.1); color: var(--teal); }
+    .card-teal .card-link  { color: var(--teal); }
+
+    .card-amber .card-icon { background: rgba(255,181,71,.1); }
+    .card-amber .card-tag  { background: rgba(255,181,71,.1); color: var(--amber); }
+    .card-amber .card-link { color: var(--amber); }
+
+    .card-blue .card-icon  { background: rgba(61,158,252,.1); }
+    .card-blue .card-tag   { background: rgba(61,158,252,.1); color: var(--blue); }
+    .card-blue .card-link  { color: var(--blue); }
+
+    .card-red .card-icon   { background: rgba(255,76,106,.1); }
+    .card-red .card-tag    { background: rgba(255,76,106,.1); color: var(--red); }
+    .card-red .card-link   { color: var(--red); }
+    .card-red:hover        { border-color: var(--red) !important; box-shadow: 0 16px 48px rgba(0,0,0,.4), 0 0 10px rgba(255,76,106,.2) !important; }
+    .card-red::before      { background: linear-gradient(135deg, rgba(255,76,106,.06) 0%, transparent 60%) !important; }
+
+    /* ─── TOPICS ─── */
+    .topics {
+      padding: 100px 48px;
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .topics-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .topics-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      list-style: none;
+    }
+
+    .topic-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 18px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: .88rem;
+      transition: border-color .2s;
+      opacity: 0;
+      animation: fadeUp .5s ease forwards;
+    }
+
+    .topic-item:hover { border-color: rgba(0,229,195,.35); }
+
+    .topic-item:nth-child(1)  { animation-delay: .05s }
+    .topic-item:nth-child(2)  { animation-delay: .10s }
+    .topic-item:nth-child(3)  { animation-delay: .15s }
+    .topic-item:nth-child(4)  { animation-delay: .20s }
+    .topic-item:nth-child(5)  { animation-delay: .25s }
+    .topic-item:nth-child(6)  { animation-delay: .30s }
+    .topic-item:nth-child(7)  { animation-delay: .35s }
+    .topic-item:nth-child(8)  { animation-delay: .40s }
+    .topic-item:nth-child(9)  { animation-delay: .45s }
+    .topic-item:nth-child(10) { animation-delay: .50s }
+    .topic-item:nth-child(11) { animation-delay: .55s }
+
+    .topic-icon {
+      font-size: 1.15rem;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .topic-text { line-height: 1.4; color: var(--muted); }
+    .topic-text strong { color: var(--white); display: block; font-weight: 500; margin-bottom: 1px; }
+
+    /* ─── AUDIENCE ─── */
+    .audience {
+      padding: 100px 48px;
+    }
+
+    .audience-header {
+      margin-bottom: 64px;
+    }
+
+    .audience-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .audience-card {
+      padding: 32px 28px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      text-align: center;
+      transition: border-color .25s, transform .25s;
+    }
+
+    .audience-card:hover {
+      border-color: rgba(0,229,195,.4);
+      transform: translateY(-3px);
+    }
+
+    .audience-emoji {
+      font-size: 2.4rem;
+      display: block;
+      margin-bottom: 16px;
+    }
+
+    .audience-card h4 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      margin-bottom: 10px;
+    }
+
+    .audience-card p {
+      font-size: .85rem;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    /* ─── DIFFERENTIATORS ─── */
+    .diff {
+      padding: 100px 48px;
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .diff-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    .diff-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .diff-table th {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: .72rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      padding: 12px 16px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+      color: var(--muted);
+    }
+
+    .diff-table td {
+      padding: 14px 16px;
+      font-size: .88rem;
+      border-bottom: 1px solid rgba(17,34,51,.7);
+      vertical-align: middle;
+    }
+
+    .diff-table tr:last-child td { border-bottom: none; }
+
+    .diff-table td:first-child { color: var(--white); }
+
+    .check-yes { color: var(--teal); font-size: 1.1rem; }
+    .check-no  { color: #334455; font-size: 1.1rem; }
+
+    /* ─── OPEN SOURCE CTA ─── */
+    .cta-section {
+      padding: 100px 48px;
+      text-align: center;
+    }
+
+    .cta-box {
+      max-width: 700px;
+      margin: 0 auto;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 72px 60px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-box::before {
+      content: '';
+      position: absolute;
+      top: -80px; left: 50%; transform: translateX(-50%);
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(0,229,195,.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .cta-box .section-label { justify-content: center; display: block; }
+    .cta-box .section-title { margin: 0 auto 20px; }
+    .cta-box .section-desc  { margin: 0 auto 40px; text-align: center; }
+
+    .cta-buttons {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid var(--border);
+      padding: 40px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-left {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: .75rem;
+      color: var(--muted);
+      letter-spacing: .06em;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+    }
+
+    .footer-links a {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: .72rem;
+      letter-spacing: .08em;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color .2s;
+    }
+
+    .footer-links a:hover { color: var(--teal); }
+
+    /* ─── TERMINAL TICKER ─── */
+    .ticker {
+      background: rgba(0,229,195,.04);
+      border-top: 1px solid rgba(0,229,195,.12);
+      border-bottom: 1px solid rgba(0,229,195,.12);
+      padding: 12px 0;
+      overflow: hidden;
+      white-space: nowrap;
+      position: relative;
+      z-index: 1;
+    }
+
+    .ticker-track {
+      display: inline-block;
+      animation: ticker 30s linear infinite;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: .72rem;
+      letter-spacing: .12em;
+      color: var(--teal);
+    }
+
+    .ticker-track span { margin: 0 40px; opacity: .6; }
+    .ticker-track span::before { content: '▸ '; }
+
+    @keyframes ticker {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ─── SCROLL REVEAL ─── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity .65s ease, transform .65s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* ─── HAMBURGER BUTTON ─── */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: transparent;
+      border: none;
+      padding: 6px;
+    }
+    .hamburger span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--teal);
+      border-radius: 2px;
+      transition: transform .3s, opacity .3s;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* ─── MOBILE NAV DRAWER ─── */
+    .mobile-nav {
+      display: none;
+      position: fixed;
+      top: 70px; left: 0; right: 0;
+      background: rgba(5,11,18,.97);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+      z-index: 99;
+      padding: 20px 24px 28px;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .mobile-nav.open { display: flex; }
+    .mobile-nav a {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: .9rem;
+      color: var(--muted);
+      text-decoration: none;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+      letter-spacing: .08em;
+      transition: color .2s;
+    }
+    .mobile-nav a:last-child { border-bottom: none; }
+    .mobile-nav a:hover, .mobile-nav a:active { color: var(--teal); }
+
+    /* ─── MOBILE ─── */
+    @media (max-width: 900px) {
+      nav { padding: 16px 20px; }
+      .nav-links { display: none; }
+      .nav-cta { display: none; }
+      .hamburger { display: flex; }
+      .hero { padding: 100px 20px 60px; }
+      .hero-visual { display: none; }
+      .hero h1 { font-size: clamp(2rem, 7vw, 3.5rem); }
+      .hero-sub { font-size: 1rem; margin-bottom: 32px; }
+      .resources, .topics, .audience, .diff, .cta-section { padding: 60px 20px; }
+      .topics-inner, .diff-inner { grid-template-columns: 1fr; gap: 40px; }
+      .topics-list { grid-template-columns: 1fr 1fr; gap: 12px; }
+      footer { padding: 28px 20px; flex-direction: column; align-items: flex-start; gap: 20px; }
+      .footer-links { flex-wrap: wrap; gap: 16px 24px; }
+      .cta-box { padding: 40px 24px; }
+      .btn-primary, .btn-secondary { padding: 14px 24px; font-size: .87rem; }
+    }
+
+    @media (max-width: 900px) {
+      /* Hero stats: 2×2 grid instead of 4 in a row */
+      .hero-stats {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+      .hero-stats .stat {
+        padding: 20px 20px;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+      }
+      .hero-stats .stat:nth-child(1),
+      .hero-stats .stat:nth-child(2) {
+        border-bottom: 1px solid var(--border);
+      }
+      .hero-stats .stat:nth-child(1),
+      .hero-stats .stat:nth-child(3) {
+        border-right: 1px solid var(--border);
+      }
+      .hero-stats .stat:nth-child(3),
+      .hero-stats .stat:nth-child(4) {
+        border-bottom: none;
+      }
+      .stat-num { font-size: 1.7rem; }
+    }
+
+    @media (max-width: 600px) {
+      .hero { padding: 90px 16px 48px; }
+      .resources, .topics, .audience, .diff, .cta-section { padding: 48px 16px; }
+      .topics-list { grid-template-columns: 1fr; }
+      .resource-card { padding: 24px 20px; }
+      .audience-grid { grid-template-columns: 1fr; }
+      .resource-grid { grid-template-columns: 1fr; }
+      .hero-badge { font-size: .65rem; padding: 6px 14px; }
+      .cta-box { padding: 32px 18px; border-radius: 16px; }
+      .cta-buttons { flex-direction: column; align-items: stretch; }
+      .cta-buttons a { justify-content: center; }
+      footer { padding: 24px 16px; }
+      .footer-links { gap: 12px 18px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Matrix rain canvas -->
+<canvas id="matrix-canvas"></canvas>
+
+<div class="wrap">
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-logo">
+      <div class="nav-logo-icon">
+        <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M10 2L3 5.5v5c0 3.87 2.99 7.49 7 8.36C14.01 17.99 17 14.37 17 10.5v-5L10 2Z" stroke="#00e5c3" stroke-width="1.5" stroke-linejoin="round"/>
+          <path d="M7 10l2 2 4-4" stroke="#00e5c3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <span class="nav-logo-text">Sekurity<span>Tech</span></span>
+    </a>
+
+    <ul class="nav-links">
+      <li><a href="#resources">Resources</a></li>
+      <li><a href="#topics">Topics</a></li>
+      <li><a href="#audience">Who It's For</a></li>
+      <li><a href="#contribute">Contribute</a></li>
+    </ul>
+
+    <a href="https://github.com/sekuritytech/cyber-awareness-for-all" target="_blank" rel="noopener" class="nav-cta">⭐ Star on GitHub</a>
+
+    <!-- Hamburger (mobile only) -->
+    <button class="hamburger" id="hamburger" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- Mobile nav drawer -->
+  <div class="mobile-nav" id="mobile-nav">
+    <a href="#resources" class="mobile-nav-link">Resources</a>
+    <a href="#topics" class="mobile-nav-link">Topics</a>
+    <a href="#audience" class="mobile-nav-link">Who It's For</a>
+    <a href="#contribute" class="mobile-nav-link">Contribute</a>
+    <a href="https://github.com/sekuritytech/cyber-awareness-for-all" target="_blank" rel="noopener" style="color:var(--teal)">⭐ Star on GitHub</a>
+  </div>
+
+  <!-- TICKER -->
+  <div class="ticker" style="margin-top:70px">
+    <div class="ticker-track">
+      <span>Personal Information Protection</span>
+      <span>Phishing & Scams</span>
+      <span>Online Grooming Warning Signs</span>
+      <span>Cyberbullying Response</span>
+      <span>AI & Deepfakes</span>
+      <span>Online Gaming Safety</span>
+      <span>Passwords & 2FA</span>
+      <span>Social Media Privacy</span>
+      <span>Home & Device Safety</span>
+      <span>Recognising & Reporting Threats</span>
+      <span>Family Incident Response Plan</span>
+      <span>Personal Information Protection</span>
+      <span>Phishing & Scams</span>
+      <span>Online Grooming Warning Signs</span>
+      <span>Cyberbullying Response</span>
+      <span>AI & Deepfakes</span>
+      <span>Online Gaming Safety</span>
+      <span>Passwords & 2FA</span>
+      <span>Social Media Privacy</span>
+      <span>Home & Device Safety</span>
+      <span>Recognising & Reporting Threats</span>
+      <span>Family Incident Response Plan</span>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        OPEN-SOURCE · MIT LICENSE · v1.0
+      </div>
+
+      <h1>
+        Cyber Safety<br>
+        <span class="line-teal">for Everyone.</span><br>
+        <span class="line-dim">No Jargon.</span>
+      </h1>
+
+      <p class="hero-sub">
+        An open-source initiative bringing <strong>practical cybersecurity awareness</strong> to children, parents, educators, and organizations — through interactive resources that work offline, require no login, and collect zero data.
+      </p>
+
+      <div class="hero-actions">
+        <a href="#resources" class="btn-primary">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          Explore Resources
+        </a>
+        <a href="https://github.com/sekuritytech/cyber-awareness-for-all" target="_blank" rel="noopener" class="btn-secondary">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.021c0 4.427 2.865 8.185 6.839 9.504.5.092.682-.217.682-.483 0-.237-.009-.868-.013-1.703-2.782.605-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.026 2.747-1.026.546 1.378.202 2.397.1 2.65.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.942.359.31.678.921.678 1.856 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0022 12.021C22 6.484 17.522 2 12 2z"/></svg>
+          View on GitHub
+        </a>
+      </div>
+    </div>
+
+    <!-- Animated shield SVG -->
+    <div class="hero-visual" aria-hidden="true">
+      <svg viewBox="0 0 480 480" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- outer ring -->
+        <circle cx="240" cy="240" r="220" stroke="rgba(0,229,195,.07)" stroke-width="1"/>
+        <circle cx="240" cy="240" r="180" stroke="rgba(0,229,195,.06)" stroke-width="1" stroke-dasharray="6 8"/>
+        <circle cx="240" cy="240" r="140" stroke="rgba(0,229,195,.08)" stroke-width="1"/>
+
+        <!-- orbit dots -->
+        <circle cx="240" cy="60" r="4" fill="rgba(0,229,195,.5)"/>
+        <circle cx="420" cy="240" r="3" fill="rgba(0,229,195,.3)"/>
+        <circle cx="240" cy="420" r="4" fill="rgba(0,229,195,.5)"/>
+        <circle cx="60" cy="240" r="3" fill="rgba(0,229,195,.3)"/>
+
+        <!-- Shield main -->
+        <path d="M240 100 L320 136v96c0 54-35.5 104.4-80 119-44.5-14.6-80-65-80-119v-96L240 100Z"
+              fill="rgba(0,229,195,.06)" stroke="rgba(0,229,195,.4)" stroke-width="1.5"/>
+
+        <!-- Shield inner glow -->
+        <path d="M240 118 L308 149v90c0 48-31.5 92.5-68 105.5-36.5-13-68-57.5-68-105.5v-90L240 118Z"
+              fill="rgba(0,229,195,.04)" stroke="rgba(0,229,195,.15)" stroke-width="1"/>
+
+        <!-- Checkmark -->
+        <path d="M212 232 l18 18 38-38" stroke="#00e5c3" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+
+        <!-- Tech lines -->
+        <line x1="100" y1="160" x2="148" y2="160" stroke="rgba(0,229,195,.2)" stroke-width="1"/>
+        <line x1="100" y1="170" x2="132" y2="170" stroke="rgba(0,229,195,.12)" stroke-width="1"/>
+        <line x1="332" y1="160" x2="380" y2="160" stroke="rgba(0,229,195,.2)" stroke-width="1"/>
+        <line x1="348" y1="170" x2="380" y2="170" stroke="rgba(0,229,195,.12)" stroke-width="1"/>
+
+        <!-- Corner brackets -->
+        <path d="M80 200 L60 200 L60 180" stroke="rgba(0,229,195,.3)" stroke-width="1.5" fill="none"/>
+        <path d="M400 200 L420 200 L420 180" stroke="rgba(0,229,195,.3)" stroke-width="1.5" fill="none"/>
+        <path d="M80 280 L60 280 L60 300" stroke="rgba(0,229,195,.3)" stroke-width="1.5" fill="none"/>
+        <path d="M400 280 L420 280 L420 300" stroke="rgba(0,229,195,.3)" stroke-width="1.5" fill="none"/>
+
+        <!-- Scan line animation -->
+        <line x1="160" y1="240" x2="320" y2="240" stroke="rgba(0,229,195,.15)" stroke-width="60">
+          <animateTransform attributeName="transform" type="translate" values="0,-100;0,100;0,-100" dur="5s" repeatCount="indefinite"/>
+        </line>
+      </svg>
+    </div>
+  </section>
+
+  <!-- STATS STRIP -->
+  <div class="hero-stats reveal">
+    <div class="stat">
+      <span class="stat-num">58</span>
+      <span class="stat-label">Safety Checklist Items</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">8</span>
+      <span class="stat-label">Interactive Modules</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">11</span>
+      <span class="stat-label">Critical Topics Covered</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">0</span>
+      <span class="stat-label">Data Collected</span>
+    </div>
+  </div>
+
+  <!-- RESOURCES -->
+  <section class="resources reveal" id="resources">
+    <div class="resources-header">
+      <div class="section-label">// RESOURCES</div>
+      <h2 class="section-title">Everything you need.<br>Ready to use now.</h2>
+      <p class="section-desc">Four battle-tested tools — open a browser, start learning. No accounts, no tracking, no internet required after download.</p>
+    </div>
+
+    <div class="resource-grid">
+
+      <!-- Awareness Module — 8 modules -->
+      <a href="modules/CyberSafety_Kids_AwarenessModule.html" class="resource-card card-teal">
+        <div class="card-icon">🎓</div>
+        <span class="card-tag">INTERACTIVE MODULE</span>
+        <h3>Kids Awareness Module</h3>
+        <p>8 immersive modules covering Personal Info, Phishing, Grooming, Cyberbullying, AI & Deepfakes, and Gaming Safety — with real scenarios, quizzes, and a personalised Cyber Safety Certificate.</p>
+        <div class="card-audience">
+          <span class="audience-chip">KIDS 8–16</span>
+          <span class="audience-chip">EDUCATORS</span>
+          <span class="audience-chip">PARENTS</span>
+        </div>
+        <span class="card-link">
+          Open Module
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </span>
+      </a>
+
+      <!-- Checklist — 8 sections, 58 items -->
+      <a href="checklists/CyberSafety_Kids_Checklist.html" class="resource-card card-amber">
+        <div class="card-icon">✅</div>
+        <span class="card-tag">INTERACTIVE CHECKLIST</span>
+        <h3>Cyber Safety Checklist</h3>
+        <p>58-item checklist across 8 sections — Personal Info, Passwords, Social Media, Gaming, AI & Deepfakes, Home Safety, and more. Live progress tracking per section, printable for offline use.</p>
+        <div class="card-audience">
+          <span class="audience-chip">KIDS</span>
+          <span class="audience-chip">PARENTS</span>
+          <span class="audience-chip">EDUCATORS</span>
+        </div>
+        <span class="card-link">
+          Open Checklist
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </span>
+      </a>
+
+      <!-- CyberShield Kids PPTX — 12 slides -->
+      <a href="https://github.com/sekuritytech/cyber-awareness-for-all/tree/main/presentations" target="_blank" rel="noopener" class="resource-card card-blue">
+        <div class="card-icon">📊</div>
+        <span class="card-tag">PRESENTATION DECK</span>
+        <h3>CyberShield Kids Presentation</h3>
+        <p>12-slide PowerPoint deck — covering the 5 Golden Rules, Phishing, Grooming, Cyberbullying, AI & Deepfakes, Gaming Safety, Passwords, and a Parent & Educator guide. Ready for classroom or workshop use.</p>
+        <div class="card-audience">
+          <span class="audience-chip">EDUCATORS</span>
+          <span class="audience-chip">PARENTS</span>
+          <span class="audience-chip">HR TEAMS</span>
+        </div>
+        <span class="card-link">
+          Download Deck
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </span>
+      </a>
+
+      <!-- Parents Digital Resilience — 17-slide HTML presentation -->
+      <a href="presentations/parents-digital-resilience.html" class="resource-card card-red">
+        <div class="card-icon">🛡️</div>
+        <span class="card-tag">INTERACTIVE PRESENTATION</span>
+        <h3>Digital Resilience for Parents</h3>
+        <p>17-slide interactive HTML presentation on building a safe digital home — covering cyberbullying, grooming, screen time, privacy, social media, and Kerala-specific helplines. Backed by 2025 MHA/I4C data.</p>
+        <div class="card-audience">
+          <span class="audience-chip">PARENTS</span>
+          <span class="audience-chip">GUARDIANS</span>
+          <span class="audience-chip">COMMUNITY TALKS</span>
+          <span class="audience-chip">KERALA</span>
+        </div>
+        <span class="card-link">
+          Open Presentation
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </span>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- TOPICS -->
+  <section class="topics" id="topics">
+    <div class="topics-inner">
+      <div class="reveal">
+        <div class="section-label">// TOPICS COVERED</div>
+        <h2 class="section-title">11 threats that matter most.</h2>
+        <p class="section-desc">Every module, checklist section, and slide deck is built around real-world digital risks — explained in plain language anyone can act on.</p>
+        <br><br>
+        <blockquote style="border-left: 2px solid var(--teal); padding-left: 20px; color: var(--muted); font-size: .95rem; font-style: italic;">
+          "Human error is the #1 cause of security breaches.<br>Awareness is the first line of defense."
+        </blockquote>
+      </div>
+
+      <ul class="topics-list reveal">
+        <li class="topic-item">
+          <span class="topic-icon">🔒</span>
+          <div class="topic-text"><strong>Personal Info Protection</strong>What to share, what to protect forever</div>
+        </li>
+        <li class="topic-item">
+          <span class="topic-icon">🎣</span>
+          <div class="topic-text"><strong>Phishing & Scams</strong>Spot fake messages, links & impersonators</div>
+        </li>
+        <li class="topic-item">
+          <span class="topic-icon">😈</span>
+          <div class="topic-text"><strong>Online Grooming</strong>Stages, warning signs & how to report</div>
+        </li>
+        <li class="topic-item">
+          <span class="topic-icon">💬</span>
+          <div class="topic-text"><strong>Cyberbullying</strong>Recognition, response & building resilience</div>
+        </li>
+        <li class="topic-item">
+          <span class="topic-icon">🤖</span>
+          <div class="topic-text"><strong>AI & Deepfakes</strong>Voice cloning, fake media & misinformation</div>
+        </li>
+        <li class="topic-item">
+          <span class="topic-icon">🎮</span>
+          <div class="topic-text"><strong>Online Gaming Safety</strong>In-game chat, strangers & safe habits</div>
+        </li>
+        <li class="topic-item">
+          <span class="topic-icon">🔐</span>
+          <div class="topic-text"><strong>Passwords & 2FA</strong>Strong credentials that stick</div>
+        </li>
+        <li class="topic-item">
+          <span class="topic-icon">📱</span>
+          <div class="topic-text"><strong>Social Media Safety</strong>Privacy settings, accounts & digital footprint</div>
+        </li>
+        <li class="topic-item">
+          <span class="topic-icon">🏠</span>
+          <div class="topic-text"><strong>Home & Device Safety</strong>Router, apps, screen time & parental controls</div>
+        </li>
+        <li class="topic-item">
+          <span class="topic-icon">⚠️</span>
+          <div class="topic-text"><strong>Recognising & Reporting</strong>When and how to report threats safely</div>
+        </li>
+        <li class="topic-item">
+          <span class="topic-icon">🚨</span>
+          <div class="topic-text"><strong>Incident Response</strong>Family plan for when things go wrong</div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- AUDIENCE -->
+  <section class="audience reveal" id="audience">
+    <div class="audience-header">
+      <div class="section-label">// WHO IT'S FOR</div>
+      <h2 class="section-title">Built for every level.</h2>
+      <p class="section-desc">From a 9-year-old's first device to a CISO's team training — one initiative, five audiences.</p>
+    </div>
+
+    <div class="audience-grid">
+      <div class="audience-card">
+        <span class="audience-emoji">🧒</span>
+        <h4>Children (8–16)</h4>
+        <p>Learn to stay safe online through engaging stories and real-world scenarios — no techspeak.</p>
+      </div>
+      <div class="audience-card">
+        <span class="audience-emoji">👪</span>
+        <h4>Parents & Guardians</h4>
+        <p>Understand digital risks and have better, more confident conversations about safety with your kids.</p>
+      </div>
+      <div class="audience-card">
+        <span class="audience-emoji">🏫</span>
+        <h4>Teachers & Schools</h4>
+        <p>Classroom-ready resources with zero technical setup. Print, open in browser, and go.</p>
+      </div>
+      <div class="audience-card">
+        <span class="audience-emoji">🏢</span>
+        <h4>Organizations & HR</h4>
+        <p>Run quick, engaging security awareness sessions without expensive vendor platforms.</p>
+      </div>
+      <div class="audience-card">
+        <span class="audience-emoji">🔐</span>
+        <h4>Security Professionals</h4>
+        <p>Share battle-tested content with non-technical colleagues and communities who need it most.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- DIFFERENTIATORS -->
+  <section class="diff" id="why">
+    <div class="diff-inner">
+      <div class="reveal">
+        <div class="section-label">// WHY THIS PROJECT</div>
+        <h2 class="section-title">What makes this different.</h2>
+        <p class="section-desc">Most awareness content is passive and forgettable. This project is built on a different philosophy — practical, interactive, and fully private.</p>
+      </div>
+
+      <div class="reveal">
+        <table class="diff-table">
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>This Project</th>
+              <th>Typical Content</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Interactive quizzes with feedback</td>
+              <td><span class="check-yes">✓</span></td>
+              <td><span class="check-no">✗</span></td>
+            </tr>
+            <tr>
+              <td>Real scenario-based learning</td>
+              <td><span class="check-yes">✓</span></td>
+              <td><span class="check-no">✗</span></td>
+            </tr>
+            <tr>
+              <td>Live per-section progress tracking</td>
+              <td><span class="check-yes">✓</span></td>
+              <td><span class="check-no">✗</span></td>
+            </tr>
+            <tr>
+              <td>Personalised completion certificate</td>
+              <td><span class="check-yes">✓</span></td>
+              <td><span class="check-no">✗</span></td>
+            </tr>
+            <tr>
+              <td>AI & Deepfakes module for kids</td>
+              <td><span class="check-yes">✓</span></td>
+              <td><span class="check-no">✗</span></td>
+            </tr>
+            <tr>
+              <td>No login / zero data collected</td>
+              <td><span class="check-yes">✓</span></td>
+              <td><span class="check-no">✗</span></td>
+            </tr>
+            <tr>
+              <td>Works fully offline</td>
+              <td><span class="check-yes">✓</span></td>
+              <td><span class="check-no">✗</span></td>
+            </tr>
+            <tr>
+              <td>Designed specifically for children</td>
+              <td><span class="check-yes">✓</span></td>
+              <td>Rarely</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA / CONTRIBUTE -->
+  <section class="cta-section reveal" id="contribute">
+    <div class="cta-box">
+      <div class="section-label">// OPEN SOURCE</div>
+      <h2 class="section-title">Help make the internet safer.</h2>
+      <p class="section-desc">Contribute a module, translate into your language, or simply share with someone who needs it. Every contribution protects a child or family.</p>
+      <div class="cta-buttons">
+        <a href="https://github.com/sekuritytech/cyber-awareness-for-all" target="_blank" rel="noopener" class="btn-primary">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.021c0 4.427 2.865 8.185 6.839 9.504.5.092.682-.217.682-.483 0-.237-.009-.868-.013-1.703-2.782.605-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.026 2.747-1.026.546 1.378.202 2.397.1 2.65.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.942.359.31.678.921.678 1.856 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0022 12.021C22 6.484 17.522 2 12 2z"/></svg>
+          View on GitHub
+        </a>
+        <a href="https://github.com/sekuritytech/cyber-awareness-for-all/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener" class="btn-secondary">
+          Contributing Guide →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-left">
+      © 2026 SekurityTech · MIT License · Made with ❤️ to keep kids safer online
+    </div>
+    <ul class="footer-links">
+      <li><a href="https://github.com/sekuritytech/cyber-awareness-for-all" target="_blank" rel="noopener">GitHub</a></li>
+      <li><a href="https://github.com/sekuritytech/cyber-awareness-for-all/blob/main/LICENSE" target="_blank" rel="noopener">License</a></li>
+      <li><a href="https://github.com/sekuritytech/cyber-awareness-for-all/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener">Contribute</a></li>
+      <li><a href="https://github.com/sekuritytech/cyber-awareness-for-all/issues" target="_blank" rel="noopener">Issues</a></li>
+    </ul>
+  </footer>
+
+</div><!-- /wrap -->
+
+<script>
+  // ── Matrix rain canvas ──
+  const canvas = document.getElementById('matrix-canvas');
+  const ctx = canvas.getContext('2d');
+  let cols, drops;
+
+  function initMatrix() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    const fontSize = 13;
+    cols = Math.floor(canvas.width / fontSize);
+    drops = Array(cols).fill(1);
+  }
+
+  const chars = '01アイウエオカキクケコ#$%&@ABCDEF01';
+
+  function drawMatrix() {
+    ctx.fillStyle = 'rgba(5,11,18,.06)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#00e5c3';
+    ctx.font = '13px Share Tech Mono, monospace';
+    for (let i = 0; i < drops.length; i++) {
+      ctx.fillText(chars[Math.floor(Math.random() * chars.length)], i * 13, drops[i] * 13);
+      if (drops[i] * 13 > canvas.height && Math.random() > 0.975) drops[i] = 0;
+      drops[i]++;
+    }
+  }
+
+  initMatrix();
+  window.addEventListener('resize', initMatrix);
+  setInterval(drawMatrix, 60);
+
+  // ── Scroll reveal ──
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(r => observer.observe(r));
+
+  // ── Smooth-scroll nav ──
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+    });
+  });
+
+  // ── Hamburger menu ──
+  const hamburger = document.getElementById('hamburger');
+  const mobileNav = document.getElementById('mobile-nav');
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('open');
+    mobileNav.classList.toggle('open');
+  });
+  // Close drawer on link click
+  mobileNav.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      hamburger.classList.remove('open');
+      mobileNav.classList.remove('open');
+    });
+  });
+</script>
+</body>
+</html>
