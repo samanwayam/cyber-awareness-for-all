@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cyber Safety Checklist for Kids — SekurityTech</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #070B18; --navyMid: #0E1628; --navyLight: #162035;
+  --teal: #00E5CC; --tealDim: #00A896;
+  --coral: #FF5757; --gold: #FFD166; --purple: #A78BFA;
+  --white: #FFFFFF; --offWhite: #E8EEF8;
+  --gray: #6B7FA3; --lightGray: #C4D0E8;
+}
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body { font-family:'DM Sans',sans-serif; background:var(--navy); color:var(--white); }
+
+/* NAV */
+.topbar {
+  background: rgba(14,22,40,0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(0,229,204,0.1);
+  padding: 14px 40px;
+  display: flex; align-items: center; justify-content: space-between;
+  position: sticky; top:0; z-index:100;
+}
+.topbar-logo { font-family:'Syne',sans-serif; font-weight:800; font-size:16px; color:var(--white); text-decoration:none; }
+.topbar-logo span { color:var(--teal); }
+.back-btn {
+  display:flex; align-items:center; gap:6px;
+  font-size:13px; color:var(--gray); text-decoration:none;
+  padding:7px 14px; border:1px solid rgba(255,255,255,0.1); border-radius:8px;
+  transition:all 0.2s;
+}
+.back-btn:hover { border-color:var(--teal); color:var(--teal); }
+
+/* HEADER */
+.page-header {
+  background: linear-gradient(135deg, var(--navyMid) 0%, #0a1525 50%, #091420 100%);
+  padding: 60px 40px;
+  position: relative; overflow: hidden;
+  border-bottom: 1px solid rgba(0,229,204,0.1);
+}
+.page-header::before {
+  content:'';
+  position:absolute; right:-80px; top:-80px;
+  width:360px; height:360px; border-radius:50%;
+  background: radial-gradient(circle, rgba(0,229,204,0.08) 0%, transparent 70%);
+}
+.page-header::after {
+  content:'🛡️';
+  position:absolute; right:60px; top:50%; transform:translateY(-50%);
+  font-size:100px; opacity:0.08;
+}
+.header-inner { max-width:860px; margin:0 auto; }
+.header-tag {
+  display:inline-block; background:rgba(0,229,204,0.1); border:1px solid rgba(0,229,204,0.3);
+  color:var(--teal); font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase;
+  padding:5px 14px; border-radius:100px; margin-bottom:16px;
+}
+.page-header h1 {
+  font-family:'Syne',sans-serif; font-size:clamp(28px,5vw,48px); font-weight:800;
+  line-height:1.1; margin-bottom:12px;
+}
+.page-header h1 span { color:var(--teal); }
+.page-header p { font-size:15px; color:var(--lightGray); max-width:540px; line-height:1.65; }
+.header-meta {
+  display:flex; gap:24px; margin-top:24px; flex-wrap:wrap;
+}
+.meta-pill {
+  display:flex; align-items:center; gap:6px;
+  background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.08);
+  border-radius:100px; padding:6px 14px; font-size:12px; color:var(--lightGray);
+}
+
+/* PROGRESS STICKY BAR */
+.progress-sticky {
+  position:sticky; top:57px; z-index:90;
+  background:rgba(14,22,40,0.98); backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(255,255,255,0.06);
+  padding:12px 40px;
+}
+.progress-sticky-inner {
+  max-width:860px; margin:0 auto;
+  display:flex; align-items:center; gap:16px;
+}
+.progress-label { font-size:13px; color:var(--lightGray); font-weight:500; white-space:nowrap; }
+.progress-bar-bg { flex:1; height:8px; background:rgba(255,255,255,0.07); border-radius:100px; overflow:hidden; }
+.progress-bar-fill { height:100%; background:linear-gradient(90deg,var(--teal),#00FFE5); border-radius:100px; width:0%; transition:width 0.4s ease; }
+.progress-pct { font-family:'Syne',sans-serif; font-size:16px; font-weight:800; color:var(--teal); min-width:42px; text-align:right; }
+.progress-count { font-size:12px; color:var(--gray); white-space:nowrap; }
+
+/* BODY */
+.body { max-width:860px; margin:0 auto; padding:40px; }
+
+/* INTRO BOX */
+.intro-box {
+  background:rgba(0,229,204,0.06); border:1px solid rgba(0,229,204,0.2);
+  border-radius:14px; padding:20px 24px; margin-bottom:36px;
+  display:flex; gap:14px; align-items:flex-start;
+}
+.intro-icon { font-size:22px; flex-shrink:0; margin-top:2px; }
+.intro-text { font-size:14px; color:var(--lightGray); line-height:1.65; }
+.intro-text strong { color:var(--white); }
+
+/* SECTION */
+.checklist-section { margin-bottom:32px; }
+
+.section-header {
+  display:flex; align-items:center; gap:12px;
+  background:var(--navyLight); border:1px solid rgba(255,255,255,0.06);
+  border-radius:12px; padding:14px 20px; margin-bottom:4px;
+  cursor:pointer; user-select:none; transition:border-color 0.2s;
+}
+.section-header:hover { border-color:rgba(0,229,204,0.2); }
+.section-header.open { border-color:rgba(0,229,204,0.3); background:rgba(0,229,204,0.05); }
+.section-icon { font-size:22px; }
+.section-title-text { font-family:'Syne',sans-serif; font-size:16px; font-weight:700; flex:1; }
+.section-count { font-size:12px; color:var(--gray); }
+.section-tag {
+  font-size:10px; font-weight:700; letter-spacing:1px; text-transform:uppercase;
+  padding:4px 10px; border-radius:100px;
+}
+.tag-kids { background:rgba(0,229,204,0.15); color:var(--teal); }
+.tag-parents { background:rgba(255,87,87,0.15); color:var(--coral); }
+.tag-both { background:rgba(255,209,102,0.15); color:var(--gold); }
+.tag-device { background:rgba(167,139,250,0.15); color:var(--purple); }
+.section-chevron { color:var(--gray); font-size:12px; transition:transform 0.3s; }
+.section-header.open .section-chevron { transform:rotate(180deg); }
+
+.section-progress-mini { margin-top:3px; margin-bottom:2px; height:3px; background:rgba(255,255,255,0.06); border-radius:100px; overflow:hidden; }
+.section-progress-fill { height:100%; background:var(--teal); border-radius:100px; width:0%; transition:width 0.3s; }
+
+.checklist-items { display:none; padding:4px 0 8px; }
+.checklist-items.open { display:block; }
+
+.checklist-item {
+  display:flex; align-items:flex-start; gap:14px;
+  padding:12px 16px; border-radius:10px; margin-bottom:4px;
+  border:1px solid transparent; cursor:pointer;
+  transition:all 0.15s; background:rgba(255,255,255,0.02);
+}
+.checklist-item:hover { background:rgba(0,229,204,0.04); border-color:rgba(0,229,204,0.12); }
+.checklist-item.checked { background:rgba(0,229,204,0.06); border-color:rgba(0,229,204,0.2); }
+
+.cb {
+  flex-shrink:0; width:22px; height:22px;
+  border:2px solid rgba(0,229,204,0.4); border-radius:6px;
+  background:transparent; cursor:pointer; position:relative; margin-top:1px;
+  transition:all 0.2s;
+}
+.checklist-item.checked .cb { background:var(--teal); border-color:var(--teal); }
+.checklist-item.checked .cb::after {
+  content:'✓'; position:absolute; inset:0;
+  display:flex; align-items:center; justify-content:center;
+  color:var(--navy); font-size:13px; font-weight:800;
+}
+
+.item-content { flex:1; }
+.item-main { font-size:14px; font-weight:500; color:var(--offWhite); line-height:1.4; }
+.checklist-item.checked .item-main { color:var(--gray); text-decoration:line-through; }
+.item-note { font-size:12px; color:var(--gray); margin-top:4px; line-height:1.5; }
+.item-severity {
+  flex-shrink:0; font-size:9px; font-weight:700; letter-spacing:1px;
+  text-transform:uppercase; padding:3px 8px; border-radius:100px; align-self:center;
+}
+.sev-critical { background:rgba(255,87,87,0.15); color:var(--coral); }
+.sev-high { background:rgba(255,209,102,0.15); color:var(--gold); }
+.sev-medium { background:rgba(0,229,204,0.12); color:var(--teal); }
+
+/* COMPLETION CARD */
+.completion-card {
+  background:linear-gradient(135deg,rgba(0,229,204,0.1),rgba(0,168,150,0.05));
+  border:1px solid rgba(0,229,204,0.25); border-radius:20px;
+  padding:40px; text-align:center; margin-top:40px; display:none;
+}
+.completion-card.show { display:block; animation:fadeUp 0.5s ease; }
+@keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:none} }
+.completion-emoji { font-size:56px; margin-bottom:16px; }
+.completion-title { font-family:'Syne',sans-serif; font-size:26px; font-weight:800; margin-bottom:8px; }
+.completion-sub { font-size:14px; color:var(--lightGray); margin-bottom:24px; }
+.print-btn {
+  display:inline-flex; align-items:center; gap:8px;
+  background:var(--teal); color:var(--navy); font-weight:700; font-size:14px;
+  padding:12px 28px; border-radius:10px; cursor:pointer;
+  border:none; transition:all 0.2s; text-decoration:none;
+}
+.print-btn:hover { background:#00FFE5; transform:translateY(-2px); }
+
+/* HELPLINE */
+.helpline-box {
+  background:rgba(255,87,87,0.07); border:1px solid rgba(255,87,87,0.2);
+  border-radius:14px; padding:20px 24px; margin-top:28px;
+  display:flex; gap:14px; align-items:center;
+}
+.helpline-icon { font-size:28px; flex-shrink:0; }
+.helpline-text { font-size:13px; color:var(--lightGray); line-height:1.6; }
+.helpline-text strong { color:var(--coral); }
+
+/* FOOTER */
+.page-footer {
+  text-align:center; padding:32px 40px;
+  border-top:1px solid rgba(255,255,255,0.05); margin-top:20px;
+  font-size:12px; color:var(--gray);
+}
+.page-footer a { color:var(--teal); text-decoration:none; }
+
+@media print {
+  .topbar, .progress-sticky, .back-btn { display:none!important; }
+  body { background:white; color:black; }
+  .page-header { background:white; color:black; border:2px solid #00A896; border-radius:12px; }
+  .page-header h1, .page-header p { color:black; }
+  .checklist-items { display:block!important; }
+  .section-header { background:#f0f4f8; }
+  .checklist-item { border:1px solid #e0e8f0; background:white; }
+  .item-main { color:#0D1B2A; }
+  .item-note { color:#666; }
+}
+@media(max-width:600px) {
+  .topbar, .progress-sticky { padding:12px 16px; }
+  .body { padding:20px 16px; }
+  .page-header { padding:40px 20px; }
+  .page-header::after { display:none; }
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a href="index.html" class="topbar-logo">Sekurity<span>Tech</span></a>
+  <a href="index.html" class="back-btn">← Back to Hub</a>
+</div>
+
+<div class="page-header">
+  <div class="header-inner">
+    <div class="header-tag">Cyber Awareness · Checklist</div>
+    <h1>🛡️ Kids Cyber Safety<br><span>Complete Checklist</span></h1>
+    <p>50+ essential safety checks for children, parents & educators. Work through each section together and review every 3 months.</p>
+    <div class="header-meta">
+      <div class="meta-pill">📋 8 Sections</div>
+      <div class="meta-pill">✅ 50+ Items</div>
+      <div class="meta-pill">🖨️ Printable</div>
+      <div class="meta-pill">🔄 Review Quarterly</div>
+    </div>
+  </div>
+</div>
+
+<div class="progress-sticky">
+  <div class="progress-sticky-inner">
+    <span class="progress-label">Overall Progress</span>
+    <div class="progress-bar-bg"><div class="progress-bar-fill" id="total-fill"></div></div>
+    <span class="progress-pct" id="total-pct">0%</span>
+    <span class="progress-count" id="total-count">0 / 0 completed</span>
+  </div>
+</div>
+
+<div class="body">
+
+  <div class="intro-box">
+    <div class="intro-icon">💡</div>
+    <div class="intro-text">
+      <strong>How to use this checklist:</strong> Click each item to mark it complete. Work through sections together with your child. For unchecked items, make an action plan. The checklist saves your progress in this session. Print it for offline use or school workshops.
+    </div>
+  </div>
+
+  <!-- SECTION 1 -->
+  <div class="checklist-section" data-section="0">
+    <div class="section-header open" onclick="toggleSection(0)">
+      <span class="section-icon">🔒</span>
+      <span class="section-title-text">Personal Information Protection</span>
+      <span class="section-count" id="sc-0">0/8</span>
+      <span class="section-tag tag-kids">Kids</span>
+      <span class="section-chevron">▼</span>
+    </div>
+    <div class="section-progress-mini"><div class="section-progress-fill" id="sf-0"></div></div>
+    <div class="checklist-items open" id="si-0">
+      <div class="checklist-item" onclick="toggle(this)"><div class="cb"></div><div class="item-content"><div class="item-main">I never share my full real name online</div><div class="item-note">Use a fun nickname or username — not your real first and last name.</div></div><span class="item-severity sev-critical">Critical</span></div>
+      <div class="checklist-item" onclick="toggle(this)"><div class="cb"></div><div class="item-content"><div class="item-main">I never share my home address with anyone online</div><div class="item-note">Not in games, DMs, profiles, comments, or any online form that isn't a trusted adult site.</div></div><span class="item-severity sev-critical">Critical</span></div>
+      <div class="checklist-item" onclick="toggle(this)"><div class="cb"></div><div class="item-content"><div class="item-main">I never share my school name, grade, or class online</div><div class="item-note">This can help strangers find your location or routine.</div></div><span class="item-severity sev-high">High</span></div>
+      <div class="checklist-item" onclick="toggle(this)"><div class="cb"></div><div class="item-content"><div class="item-main">I keep my phone number private — even from online friends</div><div class="item-note">Once shared, your number can be used to track, spam, or contact you.</div></div><span class="item-severity sev-high">High</span></div>
+      <div class="checklist-item" onclick="toggle(this)"><div class="cb"></div><div class="item-content"><div class="item-main">My photos do not reveal my location or daily routine</div><div class="item-note">Check for school uniforms, street signs, landmarks, or location tags in the background.</div></div><span class="item-severity sev-high">High</span></div>
+      <div class="checklist-item" onclick="toggle(this)"><div class="cb"></div><div class="item-content"><div class="item-main">I do not share my daily schedule or when I'm home alone</div><div class="item-note">Posting "at school till 3pm" or "home alone today" can put you at risk.</div></div><span class="item-severity sev-critical">Critical</span></div>
+      <div class="checklist-item" onclick="toggle(this)"><div class="cb"></div><div class="item-content"><div class="item-main">I understand that once info is posted online, it cannot be fully deleted</div><div class="item-note">Even deleted posts can be screenshotted, cached, or shared before removal.</div></div><span class="item-severity sev-medium">Know This</span></div>
+      <div class="checklist-item" onclick="toggle(this)"><div class="cb"></div><div class="item-content"><div class="item-main">I use a nickname or avatar — not a real photo — for gaming profiles</div><div class="item-note">Real photos in game lobbies can be screenshotted by strangers.</div></div><span class="item-severity sev-high">High</span></div>
+    </div>
+  </div>
+
+  <!-- SECTION 2 -->
+  <div class="checklist-section" data-section="1">
+    <div class="section-header" onclick="toggleSection(1)">
+      <span class="section-icon">🔐</span>
+      <span class="section-title-text">Passwords & Account Security</span>
+      <span class="section-count" id="sc-1">0/7</span>
+      <span class="section-tag tag-both">Kids + Parents</span>
+      <span class="section-chevron">▼</span>
+    </div>
+    <div class="section-progress-mini"><div class="section-progress-fill" id="sf-1"></div></div>
+    <div class="checklist-items" id="si-1">
+      <div class="checklist-item" onclick="toggle(this)"><div class="cb"></div><div class="item-content"><div class="item-main">All accounts use strong, unique passwords (12+ characters)</div><div class="item-note">Mix uppercase, lowercase, numbers, and symbols. Example: S@fe#Onlin3_2026!</div></div><span class="item-severity sev-critical">Critical</span></div>
+      <div class="checklist-item" onclick="toggle(this)"><div class="cb"></div><div class="item-content"><div class="item-main">I never use my name, birthday, or pet's name as a password</div><div class="item-note">These are the first things hackers and bad actors will try.</div></div><span class="item-severity sev-critical">Critical</span></div>
+      <div class="checklist-item" onclick="toggle(this)"><div class="cb"></div><div class="item-content"><div class="item-main">I do not share my password with anyone — including friends</div><div class="item-note">Only share account credentials with a parent or trusted guardian.</div></div><span class="item-severity sev-critical">Critical</span></div>
+      <div class="checklist-item" onclick="toggle(this)"><div class="cb"></div><div class="item-content"><div class="item-main">Two-factor authentication (2FA) is enabled on key accounts</div><div class="item-note">Email, social media, and gaming accounts — use an app like Google Authenticator where possible.</div></div><span class="item-severity sev-high">High</span></div>
+      <div class="checklist-item" onclick="toggle(this)"><div class="cb"></div><div class="item-content"><div class="item-main">I always log out from shared or public devices</div><div class="item-note">School computers, library devices, tablets — always sign out when done.</div></div><span class="item-severity sev-high">High</span></div>
+      <div class="checklist-item" onclick="toggle(this)"><div class="cb"></div><div class="item-content"><div class="item-main">Passwords are updated every 6 months</div><div class="item-note">Set a reminder. If you've been part of a data breach, change immediately.</div></div><span class="item-severity sev-medium">Good Practice</span></div>
+      <div class="checklist-item" onclick="toggle(this)"><div class="cb"></div><div class="item-content"><div class="item-main">A parent keeps a secure record of children's account credentials</div><div class="item-note">Use a password manager or a locked physical notebook — not a sticky note on the screen!</div></div><span class="item-severity sev-medium">Recommended</span></div>
+    </div>
+  </div>
+
+  <!-- SECTION 3 -->
+  <div class="checklist-section" data-section="2">
+    <div class="section-header" onclick="toggleSection(2)">
+      <span class="section-icon">📱</span>
+      <span class="section-title-text">Social Media Safety</span>
+      <span class="section-count" id="sc-2">0/8</span>
+      <span class="section-tag tag-both">Kids + Parents</span>
+      <span class="section-chevron">▼</span>
+    </div>
+    <div class="section-progress-mini"><div class="section-progress-fill" id="sf-2"></div></div>
+    <div class="checklist-items" id="si-2">
+      <div class="checklist-item" onclick="toggle(this)"><div class="cb"></div><div class="item-content"><div class="item-main">All social media profiles are set to private</div><div class="item-note">Go to Settings → Privacy on Instagram, TikTok, Snapchat, and all other platforms.</div></div><span class="item-severity sev-critical">Critical</span></div>
+      <div class="checklist-item" onclick="toggle(this)"><div class="cb"></div><div class="item-content"><div class="item-main">Location sharing and geo-tagging is turned OFF</div><div class="item-note">Disable location access for social apps in your phone settings and turn off "Add Location" in posts.</div></div><span class="item-severity sev-critical">Critical</span></div>
+      <div class="checklist-item" onclick="toggle(this)"><div class="cb"></div><div class="item-content"><div class="item-main">I only accept follow/friend requests from people I know in real life</div><div class="item-note">Common strangers' tactics: fake mutual friends, compliments, shared interests.</div></div><span class="item-severity sev-high">High</span></div>
+      <div class="checklist-item" onclick="toggle(this)"><div class="cb"></div><div class="item-content"><div class="item-main">Direct messages from unknown accounts are blocked or restricted</div><div class="item-note">Most platforms have a "message requests" filter — unknown DMs should stay in requests, not inbox.</div></div><span class="item-severity sev-high">High</span></div>
+      <div class="checklist-item" onclick="toggle(this)"><div class="cb"></div><div class="item-content"><div class="item-main">I apply the "teacher test" before posting anything</div><div class="item-note">Ask: "Would I be comfortable if my teacher, parent, or future employer saw this?"</div></div><span class="item-severity sev-medium">Good Habit</span></div>
+      <div class="checklist-item" onclick="toggle(this)"><div class="cb"></div><div class="item-content"><div class="item-main">I have never shared photos or videos that could embarrass someone</div><div class="item-note">Sharing embarrassing content without consent is a form of cyberbullying and can be illegal.</div></div><span class="item-severity sev-critical">Critical</span></div>
+      <div class="checklist-item" onclick="toggle(this)"><div class="cb"></div><div class="item-content"><div class="item-main">Profile picture does not include school uniform or identifying details</div><div class="item-note">A cartoon avatar or safe photo without location clues is best.</div></div><span class="item-severity sev-high">High</span></div>
+      <div class="checklist-item" onclick="toggle(this)"><div class="cb"></div><div class="item-content"><div class="item-main">App permissions are reviewed — camera, mic, contacts are limited to trusted apps</div><div class="item-note">Check Settings → Apps → Permissions. Many apps request more access than they need.</div></div><span class="item-severity sev-medium">Recommended</span></div>
+    </div>
+  </div>
+
+  <!-- SECTION 4 -->
+  <div class="checklist-section" data-section="3">
+    <div class="section-header" onclick="toggleSection(3)">
+      <span class="section-icon">🎮</span>
+      <span class="section-title-text">Online Gaming Safety</span>
+      <span class="section-count" id="sc-3">0/7</span>
+      <span class="section-tag tag-kids">Kids</span>
+      <span class="section-chevron">▼</span>
+    </div>
+    <div class="section-progress-mini"><div class="section-progress-fill" id="sf-3"></div></div>
+    <div class="checklist-items" id="si-3">
+      <div class="checklist-item" onclick="toggle(this)"><div class="cb"></div><div class="item-content"><div class="item-main">My gaming username does not reveal my real name or age</div><div class="item-note">Avoid usernames like "JohnSmith2013" or "SarahAge12". Use something neutral and fun.</div></div><span class="item-severity sev-high">High</span></div>
+      <div class="checklist-item" onclick="toggle(this)"><div class="cb"></div><div class="item-content"><div class="item-main">I do not share personal info in game chats or voice calls</div><div class="item-note">Even with people who seem like good online friends — you cannot verify who they are.</div></div><span class="item-severity sev-critical">Critical</span></div>
+      <div class="checklist-item" onclick="toggle(this)"><div class="cb"></div><div class="item-content"><div class="item-main">I never meet in real life anyone I've only met through a game</div><div class="item-note">If someone asks to meet up, tell a trusted adult immediately.</div></div><span class="item-severity sev-critical">Critical</span></div>
+      <div class="checklist-item" onclick="toggle(this)"><div class="cb"></div><div class="item-content"><div class="item-main">I ignore and report players who send inappropriate messages or gifts</div><div class="item-note">Unsolicited gifts or overly friendly strangers in games are a red flag for grooming.</div></div><span class="item-severity sev-critical">Critical</span></div>
+      <div class="checklist-item" onclick="toggle(this)"><div class="cb"></div><div class="item-content"><div class="item-main">I never click "free V-bucks", free skins, or external game links</div><div class="item-note">These are almost always phishing scams designed to steal your game account or device data.</div></div><span class="item-severity sev-high">High</span></div>
+      <div class="checklist-item" onclick="toggle(this)"><div class="cb"></div><div class="item-content"><div class="item-main">In-app purchases require parent approval before confirming</div><div class="item-note">Set up a PIN or require password confirmation on app stores and gaming platforms.</div></div><span class="item-severity sev-medium">Recommended</span></div>
+      <div class="checklist-item" onclick="toggle(this)"><div class="cb"></div><div class="item-content"><div class="item-main">I know how to mute, block, and report other players on each game I use</div><div class="item-note">Know where the report button is before you need it. Each game platform has different steps.</div></div><span class="item-severity sev-medium">Know This</span></div>
+    </div>
+  </div>
+
+  <!-- SECTION 5 -->
+  <div class="checklist-section" data-section="4">
+    <div class="section-header" onclick="toggleSection(4)">
+      <span class="section-icon">⚠️</span>
+      <span class="section-title-text">Recognizing & Reporting Threats</span>
+      <span class="section-count" id="sc-4">0/7</span>
+      <span class="section-tag tag-kids">Kids</span>
+      <span class="section-chevron">▼</span>
+    </div>
+    <div class="section-progress-mini"><div class="section-progress-fill" id="sf-4"></div></div>
+    <div class="checklist-items" id="si-4">
+      <div class="checklist-item" onclick="toggle(this)"><div class="cb"></div><div class="item-content"><div class="item-main">I know what phishing looks like and never click suspicious links</div><div class="item-note">Signs: urgency ("act now!"), too-good-to-be-true offers, strange sender addresses, poor spelling.</div></div><span class="item-severity sev-high">High</span></div>
+      <div class="checklist-item" onclick="toggle(this)"><div class="cb"></div><div class="item-content"><div class="item-main">I know what cyberbullying is and how to report it</div><div class="item-note">Repeated mean messages, exclusion, fake profiles, humiliating posts — all count as cyberbullying.</div></div><span class="item-severity sev-high">High</span></div>
+      <div class="checklist-item" onclick="toggle(this)"><div class="cb"></div><div class="item-content"><div class="item-main">I screenshot evidence BEFORE blocking and reporting</div><div class="item-note">Evidence disappears when you block someone. Screenshot first, then report, then block.</div></div><span class="item-severity sev-critical">Critical</span></div>
+      <div class="checklist-item" onclick="toggle(this)"><div class="cb"></div><div class="item-content"><div class="item-main">If something feels wrong online, I stop and tell a trusted adult</div><div class="item-note">You will not get in trouble for reporting. Adults need to know to help you.</div></div><span class="item-severity sev-critical">Critical</span></div>
+      <div class="checklist-item" onclick="toggle(this)"><div class="cb"></div><div class="item-content"><div class="item-main">I do not download files or apps without a parent's knowledge</div><div class="item-note">Even "free games" or PDF attachments from unknown sources can contain malware.</div></div><span class="item-severity sev-high">High</span></div>
+      <div class="checklist-item" onclick="toggle(this)"><div class="cb"></div><div class="item-content"><div class="item-main">I know the warning signs of grooming (secrets, gifts, special friendship)</div><div class="item-note">If an online "friend" asks you to keep your conversations secret, that is a serious warning sign.</div></div><span class="item-severity sev-critical">Critical</span></div>
+      <div class="checklist-item" onclick="toggle(this)"><div class="cb"></div><div class="item-content"><div class="item-main">I know the emergency helplines: Childline 1098 (India) / 0800 1111 (UK)</div><div class="item-note">You can call these free, confidentially, any time — day or night. No question is too small.</div></div><span class="item-severity sev-medium">Know This</span></div>
+    </div>
+  </div>
+
+  <!-- SECTION 6 -->
+  <div class="checklist-section" data-section="5">
+    <div class="section-header" onclick="toggleSection(5)">
+      <span class="section-icon">🤖</span>
+      <span class="section-title-text">AI, Deepfakes & Misinformation</span>
+      <span class="section-count" id="sc-5">0/6</span>
+      <span class="section-tag tag-both">Kids + Parents</span>
+      <span class="section-chevron">▼</span>
+    </div>
+    <div class="section-progress-mini"><div class="section-progress-fill" id="sf-5"></div></div>
+    <div class="checklist-items" id="si-5">
+      <div class="checklist-item" onclick="toggle(this)"><div class="cb"></div><div class="item-content"><div class="item-main">I know that AI can generate fake photos, videos, and voices of real people</div><div class="item-note">Deepfakes look realistic. Always verify surprising or shocking content before believing or sharing it.</div></div><span class="item-severity sev-high">Know This</span></div>
+      <div class="checklist-item" onclick="toggle(this)"><div class="cb"></div><div class="item-content"><div class="item-main">I verify news or viral content before sharing it with others</div><div class="item-note">Check a second trusted source. Look for the original post date. Misinformation spreads fast.</div></div><span class="item-severity sev-high">High</span></div>
+      <div class="checklist-item" onclick="toggle(this)"><div class="cb"></div><div class="item-content"><div class="item-main">I never send selfies or videos to people I haven't met in real life</div><div class="item-note">Even seemingly harmless photos can be manipulated using AI tools and used against you.</div></div><span class="item-severity sev-critical">Critical</span></div>
+      <div class="checklist-item" onclick="toggle(this)"><div class="cb"></div><div class="item-content"><div class="item-main">I understand that AI chatbots can be wrong, biased, or manipulated</div><div class="item-note">Don't share personal info with AI tools. Their responses are not always accurate or safe.</div></div><span class="item-severity sev-medium">Awareness</span></div>
+      <div class="checklist-item" onclick="toggle(this)"><div class="cb"></div><div class="item-content"><div class="item-main">If I see a deepfake or fake image of someone I know, I report it and tell an adult</div><div class="item-note">Creating or sharing fake explicit images of anyone — including minors — is illegal in many countries.</div></div><span class="item-severity sev-critical">Critical</span></div>
+      <div class="checklist-item" onclick="toggle(this)"><div class="cb"></div><div class="item-content"><div class="item-main">I am cautious of urgent voice messages or video calls that seem "off"</div><div class="item-note">AI voice cloning can mimic anyone's voice. If a "family member" calls asking for money or info, verify by calling them back directly.</div></div><span class="item-severity sev-high">High</span></div>
+    </div>
+  </div>
+
+  <!-- SECTION 7 -->
+  <div class="checklist-section" data-section="6">
+    <div class="section-header" onclick="toggleSection(6)">
+      <span class="section-icon">🏠</span>
+      <span class="section-title-text">Home & Device Safety</span>
+      <span class="section-count" id="sc-6">0/8</span>
+      <span class="section-tag tag-parents">Parents</span>
+      <span class="section-chevron">▼</span>
+    </div>
+    <div class="section-progress-mini"><div class="section-progress-fill" id="sf-6"></div></div>
+    <div class="checklist-items" id="si-6">
+      <div class="checklist-item" onclick="toggle(this)"><div class="cb"></div><div class="item-content"><div class="item-main">Parental controls are enabled on all devices children use</div><div class="item-note">Use built-in tools: Screen Time (iOS/Mac), Family Link (Android), Microsoft Family Safety (Windows).</div></div><span class="item-severity sev-high">High</span></div>
+      <div class="checklist-item" onclick="toggle(this)"><div class="cb"></div><div class="item-content"><div class="item-main">Screen time limits are set and consistently followed</div><div class="item-note">Recommended: under 2 hours of recreational screen time for children under 12.</div></div><span class="item-severity sev-medium">Recommended</span></div>
+      <div class="checklist-item" onclick="toggle(this)"><div class="cb"></div><div class="item-content"><div class="item-main">Devices are charged outside the bedroom at night</div><div class="item-note">This improves sleep quality and reduces late-night unsupervised online access.</div></div><span class="item-severity sev-medium">Good Practice</span></div>
+      <div class="checklist-item" onclick="toggle(this)"><div class="cb"></div><div class="item-content"><div class="item-main">Antivirus and security software is installed and up to date</div><div class="item-note">Use trusted software on all family devices. Enable automatic updates.</div></div><span class="item-severity sev-high">High</span></div>
+      <div class="checklist-item" onclick="toggle(this)"><div class="cb"></div><div class="item-content"><div class="item-main">Home Wi-Fi uses WPA3 encryption and a strong unique password</div><div class="item-note">Change the default router password. Don't use the router's brand name as your Wi-Fi name.</div></div><span class="item-severity sev-high">High</span></div>
+      <div class="checklist-item" onclick="toggle(this)"><div class="cb"></div><div class="item-content"><div class="item-main">All apps and games are approved by a parent before installation</div><div class="item-note">Review age ratings, requested permissions, and in-app purchase settings before approving.</div></div><span class="item-severity sev-medium">Recommended</span></div>
+      <div class="checklist-item" onclick="toggle(this)"><div class="cb"></div><div class="item-content"><div class="item-main">Operating systems and apps are kept updated</div><div class="item-note">Updates contain security patches. Enable auto-update on all family devices.</div></div><span class="item-severity sev-high">High</span></div>
+      <div class="checklist-item" onclick="toggle(this)"><div class="cb"></div><div class="item-content"><div class="item-main">Safe Search is enabled on all browsers and search engines</div><div class="item-note">Enable Google SafeSearch, YouTube Restricted Mode, and use kid-friendly browsers like Kiddle for young children.</div></div><span class="item-severity sev-high">High</span></div>
+    </div>
+  </div>
+
+  <!-- SECTION 8 -->
+  <div class="checklist-section" data-section="7">
+    <div class="section-header" onclick="toggleSection(7)">
+      <span class="section-icon">💬</span>
+      <span class="section-title-text">Communication & Digital Citizenship</span>
+      <span class="section-count" id="sc-7">0/7</span>
+      <span class="section-tag tag-both">Kids + Parents</span>
+      <span class="section-chevron">▼</span>
+    </div>
+    <div class="section-progress-mini"><div class="section-progress-fill" id="sf-7"></div></div>
+    <div class="checklist-items" id="si-7">
+      <div class="checklist-item" onclick="toggle(this)"><div class="cb"></div><div class="item-content"><div class="item-main">We have regular, open conversations about online experiences</div><div class="item-note">Ask open questions: "What games are you playing? Who do you talk to?" — not just "Are you being safe?"</div></div><span class="item-severity sev-high">High</span></div>
+      <div class="checklist-item" onclick="toggle(this)"><div class="cb"></div><div class="item-content"><div class="item-main">My child knows they will not be punished for reporting something wrong</div><div class="item-note">Fear of punishment is the #1 reason kids don't report online incidents to parents.</div></div><span class="item-severity sev-critical">Critical</span></div>
+      <div class="checklist-item" onclick="toggle(this)"><div class="cb"></div><div class="item-content"><div class="item-main">I treat everyone online with the same respect as in real life</div><div class="item-note">Online words cause real hurt. The "digital distance" does not reduce the impact of unkind words.</div></div><span class="item-severity sev-high">High</span></div>
+      <div class="checklist-item" onclick="toggle(this)"><div class="cb"></div><div class="item-content"><div class="item-main">I understand that online actions have real-world legal consequences</div><div class="item-note">Cyberbullying, sharing intimate images, hacking, and online harassment can lead to legal action — even for minors.</div></div><span class="item-severity sev-medium">Know This</span></div>
+      <div class="checklist-item" onclick="toggle(this)"><div class="cb"></div><div class="item-content"><div class="item-main">We have agreed on a Family Digital Safety Agreement</div><div class="item-note">A simple signed agreement covers: screen time, approved apps, where devices are used, what to do if something goes wrong.</div></div><span class="item-severity sev-medium">Recommended</span></div>
+      <div class="checklist-item" onclick="toggle(this)"><div class="cb"></div><div class="item-content"><div class="item-main">I practice healthy screen habits — breaks, posture, and sleep boundaries</div><div class="item-note">Follow the 20-20-20 rule: every 20 minutes, look 20 feet away for 20 seconds to reduce eye strain.</div></div><span class="item-severity sev-medium">Wellbeing</span></div>
+      <div class="checklist-item" onclick="toggle(this)"><div class="cb"></div><div class="item-content"><div class="item-main">We review this checklist together every 3 months</div><div class="item-note">The digital threat landscape changes. What's safe today may not be safe tomorrow. Review regularly.</div></div><span class="item-severity sev-medium">Ongoing</span></div>
+    </div>
+  </div>
+
+  <!-- COMPLETION -->
+  <div class="completion-card" id="completion">
+    <div class="completion-emoji">🏆</div>
+    <div class="completion-title">All Items Complete!</div>
+    <div class="completion-sub">Excellent work! You've reviewed all 50+ cyber safety checks. Review again in 3 months to stay up to date.</div>
+    <button class="print-btn" onclick="window.print()">🖨️ Print This Checklist</button>
+  </div>
+
+  <!-- HELPLINE -->
+  <div class="helpline-box">
+    <div class="helpline-icon">🆘</div>
+    <div class="helpline-text">
+      <strong>Emergency Helplines:</strong> Childline India: <strong>1098</strong> (free, 24/7) · Childline UK: <strong>0800 1111</strong> · NCMEC USA: <strong>1-800-843-5678</strong> · iReportCyber (India): <a href="https://cybercrime.gov.in" style="color:var(--coral)">cybercrime.gov.in</a>
+    </div>
+  </div>
+
+</div>
+
+<div class="page-footer">
+  <a href="index.html">← Back to SekurityTech Awareness Hub</a> · Open-source under MIT License · Review every 3 months
+</div>
+
+<script>
+const SECTIONS = 8;
+const totalEl = document.getElementById('total-fill');
+const pctEl = document.getElementById('total-pct');
+const countEl = document.getElementById('total-count');
+
+function toggle(item) {
+  item.classList.toggle('checked');
+  updateAll();
+}
+
+function toggleSection(idx) {
+  const header = document.querySelector(`[data-section="${idx}"] .section-header`);
+  const items = document.getElementById(`si-${idx}`);
+  header.classList.toggle('open');
+  items.classList.toggle('open');
+}
+
+function updateAll() {
+  let totalItems = 0, totalDone = 0;
+  for (let i = 0; i < SECTIONS; i++) {
+    const items = document.querySelectorAll(`#si-${i} .checklist-item`);
+    const done = document.querySelectorAll(`#si-${i} .checklist-item.checked`).length;
+    const n = items.length;
+    totalItems += n;
+    totalDone += done;
+    const pct = n ? (done/n*100) : 0;
+    document.getElementById(`sf-${i}`).style.width = pct + '%';
+    document.getElementById(`sc-${i}`).textContent = `${done}/${n}`;
+  }
+  const overall = totalItems ? Math.round(totalDone/totalItems*100) : 0;
+  totalEl.style.width = overall + '%';
+  pctEl.textContent = overall + '%';
+  countEl.textContent = `${totalDone} / ${totalItems} completed`;
+  if (overall === 100) {
+    document.getElementById('completion').classList.add('show');
+  }
+}
+
+updateAll();
+</script>
+</body>
+</html>
